@@ -28,7 +28,7 @@ fn main() {
 
 ```
 
-The above code randomly generates a seed, and outputs the hash in the following format:
+The above code randomly generates a salt, and outputs the hash in the following format:
 `$$argon2i$m=4096,t=3,p=1$P7ckzVebJQZCacmRdOdd1g$NNPTr2du3PQbGWUQF9+ZzAaIZKA/FlwJRR+TQ/h0Pq8`.
 
 Details for how this is serialized can be found in the [technical details chapter](../../technical-details/phc-string-format/). This adheres to libpasta's [strong defaults](../what-is-libpasta#secure-by-default) principle. 
@@ -68,11 +68,15 @@ Suppose we previously have bcrypt hashes in the following form:
 `$2a$10$175ikf/E6E.73e83.fJRbODnYWBwmfS0ENdzUBZbedUNGO.99wJfa`.
 This a bcrypt hash, structured as `$<bcrypt identifier>$<cost>$<salthash>`.
 
-We have two options for migrating passwords:
-1. Wrap the existing algorithm in the new algorithm (effectively two hashes).
-2. Wait for the user to login and update algorithm.
+`libpasta` includes a simple work flow for migrating passwords to a new
+algorithm (or new parameterization of an existing algorithm).  
+First, wrap existing hashes in the new algorithm to ensure their 
+security immediately. Second, as users log in, update the wrapped hashes to just
+use the new algorithm. Wrapping simply takes an existing hash and re-hashes it 
+with the new algorithm. 
 
-The two options can be seen in the following code:
+The following code first wraps an existing hash, and then a move to just using
+the new algorithm:
 
 ```rust
 extern crate libpasta;
@@ -83,14 +87,14 @@ use libpasta::rpassword::*;
 const OLD_PASSWORD_HASH: &'static str = "$2a$10$LhQ7vr/pnBdDprTRX7JaJesx.qd7qAYdJryEt5z2VM7EUsbNNnoIi";
 
 fn main() {
-    // Option 1. Migrate by wrapping
+    // Step 1: Wrap old hash
     let mut hash = OLD_PASSWORD_HASH.to_string();
     libpasta::migrate_hash(&mut hash);
-    println!("Migrated. New hash: \n{}\n", hash);
+    println!("Wrapped. New hash: \n{}\n", hash);
     // Outputs:
     // $!$argon2i$m=4096,t=3,p=1$$2y-mcf$cost=10$NjS9xtBrpDfFrtVTZ9LcLg$ull3Vk89hE7vkrX5FJ4zM4foaCJP61EBuaxJMOVuLDw
 
-    // Option 2. Update on password entry
+    // Step 2: Update algorithm during log in
     let mut hash = OLD_PASSWORD_HASH.to_string();
     println!("Please enter your password:");
     let password = read_password().unwrap();
@@ -106,18 +110,16 @@ fn main() {
 }
 ```
 
-In the first option, we do not need the user's password (and can therefore
-migrate all passwords whenever necessary). However, the password hash is now
+
+
+In the first step, we do not need the user's password (and can therefore
+apply this to all user passwords when desired). However, the password hash is now
 comprised of both a bcrypt computation AND an argon2 computation. Notice the
 `libpasta`-specific password hash, `$!` denoting a nested hash value.
 
-In the second option, if the user correctly enters their password, then the hash
-is recomputed from scratch with a fresh salt. However, until the user logs in, 
-the password hash will never be updated and is potentially vulnerable.
-
-The best option in practice is to combine the two: migrate all password hashes
-using the first option as soon as possible, and then opportunistically recompute
-the new hash whenever the user logs in.
+In the second step, if the user correctly enters their password, then a new hash
+is computed from scratch with a fresh salt using the new algorithm. This
+requires updating the stored version of the hash.
 
 #### Basic configuration
 

@@ -31,7 +31,10 @@ fn main() {
 The above code randomly generates a salt, and outputs the hash in the following format:
 `$$argon2i$m=4096,t=3,p=1$P7ckzVebJQZCacmRdOdd1g$NNPTr2du3PQbGWUQF9+ZzAaIZKA/FlwJRR+TQ/h0Pq8`.
 
-Details for how this is serialized can be found in the [technical details chapter](../../technical-details/phc-string-format/). This adheres to libpasta's [strong defaults](../what-is-libpasta#secure-by-default) principle. 
+Details for how this is serialized can be found in the [technical details chapter](../../technical-details/phc-string-format/). This adheres to libpasta's [strong defaults](../what-is-libpasta#secure-by-default) principle.
+
+However, for using `libpasta` one only needs to know that `hash_password`
+outputs a variable-length string.
 
 #### Verifying passwords
 
@@ -40,20 +43,22 @@ Now that you have the hashed output, verifying that an inputted password is corr
 
 ```rust
 extern crate libpasta;
-
-// We re-export the rpassword crate for CLI password input.
 use libpasta::rpassword::*;
 
-const PASSWORD_HASH: &'static str = "$$argon2i$m=4096,t=3,p=1$P7ckzVebJQZCacmRdOdd1g$NNPTr2du3PQbGWUQF9+ZzAaIZKA/FlwJRR+TQ/h0Pq8";
+struct User {
+    // ...
+    password_hash: String,
+}
 
-fn main() {
-    println!("Please re-enter your password:");
+fn auth_user(user: &User) {
+    println!("Enter password:");
     let password = read_password().unwrap();
-    let is_correct = libpasta::verify_password(PASSWORD_HASH, password);
-    if is_correct {
+    if libpasta::verify_password(&user.password_hash, password) {
         println!("The inputted password is correct!");
+        // ~> Handle correct password
     } else {
         println!("Incorrect password.");
+        // ~> Handle incorrect password
     }
 }
 
@@ -80,42 +85,35 @@ the new algorithm:
 
 ```rust
 extern crate libpasta;
-
-// We re-export the rpassword crate for CLI password input.
 use libpasta::rpassword::*;
 
-const OLD_PASSWORD_HASH: &'static str = "$2a$10$LhQ7vr/pnBdDprTRX7JaJesx.qd7qAYdJryEt5z2VM7EUsbNNnoIi";
+struct User {
+    // ...
+    password_hash: String,
+}
 
-fn main() {
+fn migrate_users(users: Vec<&mut User>) {
     // Step 1: Wrap old hash
-    let mut hash = OLD_PASSWORD_HASH.to_string();
-    libpasta::migrate_hash(&mut hash);
-    println!("Wrapped. New hash: \n{}\n", hash);
-    // Outputs:
-    // $!$argon2i$m=4096,t=3,p=1$$2y-mcf$cost=10$NjS9xtBrpDfFrtVTZ9LcLg$ull3Vk89hE7vkrX5FJ4zM4foaCJP61EBuaxJMOVuLDw
+    for user in users {
+        libpasta::migrate_hash(&mut user.password_hash);
+    }
+}
 
+fn auth_user(user: &mut User) {
     // Step 2: Update algorithm during log in
-    let mut hash = OLD_PASSWORD_HASH.to_string();
-    println!("Please enter your password:");
+    println!("Enter password:");
     let password = read_password().unwrap();
-    if libpasta::verify_password_update_hash(&mut hash, password) {
-        println!("Password correct, new hash: \n{}", hash);
-        // Outputs:
-        // $2a$10$LhQ7vr/pnBdDprTRX7JaJesx.qd7qAYdJryEt5z2VM7EUsbNNnoIi
+    if libpasta::verify_password_update_hash(&mut user.password_hash, password) {
+        println!("Password correct, new hash: \n{}", user.password_hash);
     } else {
-        println!("Password incorrect, hash unchanged: \n{}", hash);
-        // Outputs:
-        // $$argon2i$m=4096,t=3,p=1$hd2k5vRVJMK1aimiWP4moQ$NIN4COvpn4oEkirg+eeJ7/Vp5YbAXG+3sUVXHc/ttWg
+        println!("Password incorrect, hash unchanged: \n{}", user.password_hash);
     }
 }
 ```
 
-
-
 In the first step, we do not need the user's password (and can therefore
 apply this to all user passwords when desired). However, the password hash is now
-comprised of both a bcrypt computation AND an argon2 computation. Notice the
-`libpasta`-specific password hash, `$!` denoting a nested hash value.
+comprised of both a bcrypt computation AND an argon2 computation.
 
 In the second step, if the user correctly enters their password, then a new hash
 is computed from scratch with a fresh salt using the new algorithm. This

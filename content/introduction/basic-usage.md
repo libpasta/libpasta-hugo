@@ -121,24 +121,43 @@ requires updating the stored version of the hash.
 
 #### Basic configuration
 
-`libpasta` supports runtime configuration by using config files, either 
-found in default directories or specified by environment variables.
+`libpasta` supports configuration in two ways: directly in code, or using
+configuration files.
 
-Accepted formats are YAML and TOML. An example config files looks like:
+For example, suppose we wish to use bcrypt as the default algorithm.
+
+```rust
+extern crate libpasta;
+
+fn main() {
+    libpasta::config::set_primitive(libpasta::default_bcrypt());
+    let password_hash = libpasta::hash_password("hunter2".to_string());
+    println!("The hashed password is: '{}'", password_hash);
+    // Prints bcrypt hash
+}
+```
+
+Note that once the library is in use, the configuration can no longer be
+changed.
+
+Additionally, values may be set using a configuration file. Written in YAML,
+these look as follows:
 
 ```yaml
-algorithm:
-  scrypt-mcf:
-    log_n: 16
+default_primitive:
+  id: scrypt-mcf
+  params: 
+    log_n: 12
     r: 8
     p: 1
-
-force-migration: true
 ```
 
 This specifies the algorithm to use, in this case, scrypt.
 
 By default, `libpasta` will search the current directory for a file with the name
-`.libpasta.{yaml,toml}`. Alternatively, a specific (relative or absolute) path
-can be supplied by running: `LIBPASTA_CFG=path/to/file.yaml <app-name>`.
+`.libpasta.yaml`. Alternatively, a specific (relative or absolute) directory
+can be supplied by running: `LIBPASTA_CFG=path/to/cfg/ <app-name>`.
 
+`libpasta` will use any parameters set directly, then use any values
+specified in configuration files, and finally all remaining variables are set
+to defaults.

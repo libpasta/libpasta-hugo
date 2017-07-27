@@ -7,10 +7,10 @@ weight = 9
 
 ## Why hash passwords?
 
-Starting off with the most common use of passwords: user authentication.
+Let's start with the most common use of passwords: user authentication.
 
 The general setting is that an individual has a username and a password, 
-lets say `username: alice` and `password: hunter2`.
+e.g. `username: alice` and `password: hunter2`.
 
 When Alice first registers on a website, a new account is created, and the
 password is stored in the database, so that Alice can prove she is indeed Alice
@@ -21,9 +21,13 @@ id | username | password | creation-date | ...
 1  | alice    | hunter2  | 2017-07-14    | ...
 ```
 
-However, what if somebody gains access to this database with malicious intent -
-whether external hackers, or internal such as a database admin. Alice's
+However, if somebody gains access to this database with malicious intent -
+whether external hackers, or internal such as a database admin - Alice's
 password is sitting in the open.
+
+This is bad, since Alice is a typical user who likes to re-use the same
+password across multiple services. Unfortunately, as service providers we do
+not have the luxury of assuming all users have unique, high-entropy passwords.
 
 Hence we want to apply a [one-way function][owf] `f` to the password, so that
 nobody can reverse the function `f(password)` and work out the password, but
@@ -153,6 +157,18 @@ proposed. Reading and writing to memory is an operation which is approximately
 equally expensive on custom hardware, and the cost to produce ASICs capable of
 handling more memory is significantly higher. Therefore, the advantage of these
 custom solutions is reduced.
+
+## Summary
+
+Password hashing is essential to protect passwords from being leaked after a
+data breach. However, is is far from straightforward given the many
+considerations in play, such as: salting, security-parameters choices, key
+management, and memory-hardness.
+
+Hence, we created libpasta to help accomodate the needs of the majority of
+use cases, providing an easy-to-use API which removes the necessity for the
+technical knowledge to choose appopriate algorithms and parameters.
+
 
 [owf]: https://en.wikipedia.org/wiki/One-way_function
 [leaked pws]: https://wiki.skullsecurity.org/Passwords

@@ -4,11 +4,12 @@ toc = true
 weight = 4
 +++
 
-Password breaches have become a regular occurance. See: [Yahoo][yahoo],
+Password breaches have become a regular occurance. See: [Yahoo][yahoo] ([twice][yahoo2]),
 [LinkedIn][linkedin], [Adobe][adobe], [Ashley Madison][am], and
 [a whole lot more][hibp-breaches].
 
-Furthermore, with the exception of Yahoo, the above examples doubles as a list
+Furthermore, with the exception of Yahoo who _eventually_ migrated to bcrypt in 2013,
+the above examples doubles as a list
 of "how NOT to do password storage": simple hashing, unsalted values, misuse of
 encryption, and failed password migration. (For more information on why these
 are bad, see our
@@ -20,7 +21,8 @@ right is hard. Furthermore, even if you have followed previous best practice,
 keeping it right is another technical challenge: algorithm choices, security
 levels, parameter selection change regularly.
 
-[yahoo]: https://nakedsecurity.sophos.com/2016/09/23/change-your-password-yahoo-confirms-data-breach-of-500-million-accounts/
+[yahoo]: https://help.yahoo.com/kb/account/SLN27925.html
+[yahoo2]: https://help.yahoo.com/kb/account/sln28092.html
 [linkedin]: https://motherboard.vice.com/en_us/article/78kk4z/another-day-another-hack-117-million-linkedin-emails-and-password 
 [adobe]: https://www.troyhunt.com/adobe-credentials-and-serious/
 [am]: http://krebsonsecurity.com/2015/07/online-cheating-site-ashleymadison-hacked/

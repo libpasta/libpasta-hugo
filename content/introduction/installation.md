@@ -9,9 +9,9 @@ weight = 6
 Currently, this can be achieved by downloading the repository, compiling it, 
 and moving the library to the system library, e.g `/usr/lib`.
 
-```
+```bash
 git clone https://github.com/libpasta/libpasta/ # NOT ACTUALLY HERE YET
-cd pass
+cd libpasta
 
 # compiles the library
 make libpasta

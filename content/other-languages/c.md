@@ -39,7 +39,7 @@ int main(void) {
 ```
 
 Which is compiled in the usual way:
-```
+```bash
 $ ls
 pasta.h     test.c
 $ gcc test.c -lpasta -otest

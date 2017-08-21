@@ -1,6 +1,6 @@
 +++
 icon = "<b>4. </b>"
-title = "Techincal Details"
+title = "Technical Details"
 weight = 4
 
 +++

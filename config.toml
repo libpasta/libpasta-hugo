@@ -3,3 +3,5 @@ languageCode = "en-gb"
 title = "libpasta"
 theme = "hugo-theme-learn"
 PygmentsCodeFences = true
+PygmentsStyle = "native"
+PygmentsUseClasses = true

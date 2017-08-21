@@ -6,6 +6,7 @@
     {{ .Hugo.Generator }}
     {{ partial "meta.html" . }}
     {{ partial "favicon.html" . }}
+    {{ partial "header_includes.html" . }}
     {{ .Scratch.Add "title" "" }}{{ if eq .Site.Data.titles .Title }}{{ .Scratch.Set "title" (index .Site.Data.titles .Title).title }}{{ else }}{{ .Scratch.Set "title" .Title}}{{end}}
     <title>{{ .Scratch.Get "title" }}</title>
     <link href="{{ .Site.BaseURL }}/css/nucleus.css" rel="stylesheet">

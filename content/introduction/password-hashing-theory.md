@@ -26,7 +26,7 @@ whether external hackers, or internal such as a database admin - Alice's
 password is sitting in the open.
 
 This is bad, since Alice is a typical user who likes to re-use the same
-password across multiple services. Unfortunately, as service providers we do
+password across multiple services. Unfortunately, service providers do
 not have the luxury of assuming all users have unique, high-entropy passwords.
 
 Hence we want to apply a [one-way function][owf] `f` to the password, so that

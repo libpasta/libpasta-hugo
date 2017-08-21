@@ -34,7 +34,6 @@ These bind to the functions exported by the [libpasta-ffi](#) crate.
 %module pasta
 %{
 #include <pasta.h>
-
 %}
 
 %typemap(newfree) char * "free_string($1);";

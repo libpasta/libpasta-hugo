@@ -2,7 +2,6 @@
 title = "Password Migration"
 toc = true
 weight = 5
-
 +++
 
 One of the core principles underlying `libpasta` is that it should be easy to

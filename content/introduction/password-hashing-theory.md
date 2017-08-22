@@ -137,6 +137,15 @@ hardware such as an
 However, there exist [solutions (warning: PDF)][pythia] which can help in making
 keyed solutions more accessible.
 
+Another option is to involve a key in the storage mechanism is to encrypt the
+password hash after hashing. While this has a number of drawbacks compared to
+using HMAC, one benefit is that it becomes possible to perform key rotation. In
+the event that the password storage is compromised, but not the encryption key,
+the key used to store passwords can be updated, rendering the leaked passwords
+useless.
+
+We discuss how to use keys in `libpasta` in [Keyed Hashes](../../advanced/keyed).
+
 
 ## Memory hard password hashes
 

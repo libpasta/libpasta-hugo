@@ -13,20 +13,18 @@ identical to those used in the Rust library.
 
 A common scenario is that a particular user has password, which a service will check on each login to authenticate the user.
 
-```rust
+{{< highlight rust "hl_lines=8">}}
 extern crate libpasta;
 
 // We re-export the rpassword crate for CLI password input.
 use libpasta::rpassword::*;
 
 fn main() {
-    println!("Please enter your password:");
-    let password = read_password().unwrap();
+    let password = prompt_password_stdout("Please enter your password:").unwrap();
     let password_hash = libpasta::hash_password(password);
     println!("The hashed password is: '{}'", password_hash);
 }
-
-```
+{{< /highlight >}}
 
 The above code randomly generates a salt, and outputs the hash in the following format:
 `$$argon2i$m=4096,t=3,p=1$P7ckzVebJQZCacmRdOdd1g$NNPTr2du3PQbGWUQF9+ZzAaIZKA/FlwJRR+TQ/h0Pq8`.
@@ -41,7 +39,7 @@ outputs a variable-length string.
 Now that you have the hashed output, verifying that an inputted password is correct can be done as follows:
 
 
-```rust
+{{< highlight rust "hl_lines=11">}}
 extern crate libpasta;
 use libpasta::rpassword::*;
 
@@ -51,18 +49,16 @@ struct User {
 }
 
 fn auth_user(user: &User) {
-    println!("Enter password:");
-    let password = read_password().unwrap();
+    let password = prompt_password_stdout("Enter password:").unwrap();
     if libpasta::verify_password(&user.password_hash, password) {
-        println!("The inputted password is correct!");
+        println!("The password is correct!");
         // ~> Handle correct password
     } else {
         println!("Incorrect password.");
         // ~> Handle incorrect password
     }
 }
-
-```
+{{< /highlight >}}
 
 #### Password migration
 
@@ -70,7 +66,7 @@ One of the key features of `libpasta` is the ability to easily migrate passwords
 to new algorithms.
 
 Suppose we previously have bcrypt hashes in the following form:
-`$2a$10$175ikf/E6E.73e83.fJRbODnYWBwmfS0ENdzUBZbedUNGO.99wJfa`.
+`$2a$10$175ikf/E6E.73e83....`.
 This a bcrypt hash, structured as `$<bcrypt identifier>$<cost>$<salthash>`.
 
 `libpasta` includes a simple work flow for migrating passwords to a new
@@ -83,7 +79,7 @@ with the new algorithm.
 The following code first wraps an existing hash, and then a move to just using
 the new algorithm:
 
-```rust
+{{< highlight rust "hl_lines=12 19">}}
 extern crate libpasta;
 use libpasta::rpassword::*;
 
@@ -101,15 +97,14 @@ fn migrate_users(users: Vec<&mut User>) {
 
 fn auth_user(user: &mut User) {
     // Step 2: Update algorithm during log in
-    println!("Enter password:");
-    let password = read_password().unwrap();
+    let password = prompt_password_stdout("Enter password:").unwrap();
     if libpasta::verify_password_update_hash(&mut user.password_hash, password) {
         println!("Password correct, new hash: \n{}", user.password_hash);
     } else {
         println!("Password incorrect, hash unchanged: \n{}", user.password_hash);
     }
 }
-```
+{{< /highlight >}}
 
 In the first step, we do not need the user's password (and can therefore
 apply this to all user passwords when desired). However, the password hash is now
@@ -119,12 +114,15 @@ In the second step, if the user correctly enters their password, then a new hash
 is computed from scratch with a fresh salt using the new algorithm. This
 requires updating the stored version of the hash.
 
+More detailed information of password migration can be found
+[here](../../advanced/migration).
+
 #### Basic configuration
 
 `libpasta` supports configuration in two ways: directly in code, or using
 configuration files.
 
-For example, suppose we wish to use bcrypt with cost=15 as the default algorithm.
+For example, suppose we wish to use bcrypt with `cost=15` as the default algorithm.
 
 ```rust
 extern crate libpasta;
@@ -163,3 +161,6 @@ can be supplied by running: `LIBPASTA_CFG=path/to/cfg/ <app-name>`.
 `libpasta` will use any parameters set directly, then use any values
 specified in configuration files, and finally all remaining variables are set
 to defaults.
+
+`libpasta` also has a [parameter selection tool](../../advanced/tuning) which
+can optionally output configuration values. 

@@ -45,7 +45,7 @@ hide any unnecessary decisions from the developer. Together with the support for
 [migrating passwords](#easy-password-migration), `libpasta` provides a
 streamlined, easy, and secure password management solution. 
 
-Currently, the algorithm favoured by `libpasta` is XXX (probably scrypt).
+Currently, the algorithm favoured by `libpasta` is scrypt.
 For more details, see [algorithm choice](../../technical-details/algorithm-choice).
 
 

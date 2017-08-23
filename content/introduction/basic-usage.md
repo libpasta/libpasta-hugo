@@ -124,13 +124,15 @@ requires updating the stored version of the hash.
 `libpasta` supports configuration in two ways: directly in code, or using
 configuration files.
 
-For example, suppose we wish to use bcrypt as the default algorithm.
+For example, suppose we wish to use bcrypt with cost=15 as the default algorithm.
 
 ```rust
 extern crate libpasta;
 
+use libpasta::primitives::Bcrypt;
+
 fn main() {
-    libpasta::config::set_primitive(libpasta::default_bcrypt());
+    libpasta::config::set_primitive(Bcrypt::new(15));
     let password_hash = libpasta::hash_password("hunter2".to_string());
     println!("The hashed password is: '{}'", password_hash);
     // Prints bcrypt hash

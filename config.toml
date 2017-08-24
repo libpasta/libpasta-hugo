@@ -5,3 +5,10 @@ theme = "hugo-theme-learn"
 PygmentsCodeFences = true
 PygmentsStyle = "native"
 PygmentsUseClasses = true
+
+# hugo-theme-learn config
+[params]
+  # Description of the site, will be used in meta information
+  description = "libpasta - making passwords painless"
+  # Automatically generates prev and next arrows
+  autoNav = true

@@ -30,7 +30,7 @@ fn main() {
 {{< /highlight >}}
 
 The above code randomly generates a salt, and outputs the hash in the following format:
-`$$scrypt-mcf$log_n=14,r=8,p=1$pfJFg/hVSthuA5l`.
+`$$scrypt-mcf$log_n=14,r=8,p=1$pfJFg/hVSthuA5l...`.
 
 Details for how this is serialized can be found in the [technical details chapter](../../technical-details/phc-string-format/). This adheres to libpasta's [strong defaults](../what-is-libpasta#secure-by-default) principle.
 

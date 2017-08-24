@@ -17,12 +17,14 @@ For example, the following code configures a key for use in libpasta and
 sets up HMAC to be used as a wrapping function:
 
 ```rust
+use libpasta::primitives::hmac::Hmac;
+
 // Some proper way of getting a key
 let key = b"yellow submarine";
 libpasta::config::add_key(key);
 
 // Construct an HMAC instance and use this as the outer configuration
-let keyed_function = libpasta::primitives::hmac::Hmac::with_key(&digest::SHA256, key);
+let keyed_function = Hmac::with_key(&digest::SHA256, key);
 libpasta::config::set_keyed_hash(keyed_function.into());
 ```
 

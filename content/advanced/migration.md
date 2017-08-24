@@ -22,7 +22,7 @@ Hence, we instead compute `H' = g(f(password, salt), salt)`, applying the new
 hash function on top of the old one.
 
 In `libpasta`, this is represented by a hash of the form:  
-`$!$argon2i$m=4096,t=3,p=1$$2y-mcf$cost=12$1hKt7q7c+grVXmLcaTrc1A$kVFouOipYHpVHXKT0vXZJLvvPztokcXuzAWoUT1Pxyg`
+`$!$argon2i$m=4096,t=3,p=1$$2y-mcf$cost=12$1hKt7q7c...`
 Note we have both `argon2i` and `2y-mcf` (bcrypt) in the hash value. This is a
 bcrypt hash, with cost 12, which has then been further hashed using Argon2i.
 

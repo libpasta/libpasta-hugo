@@ -11,6 +11,7 @@
 
   <div class="highlightable">
     <ul class="topics">
+    <h4>Contents:</h4>
       {{ if $.Site.Params.menu }}
         {{ $.Scratch.Set "menuItems" $.Site.Params.menu }}
       {{ else }}
@@ -66,7 +67,7 @@
           {{ range $k, $p := $value }}
             <li class="dd-item {{ if eq $.UniqueID $p.Page.UniqueID }}active{{ end }}" data-nav-id="{{ $p.Page.RelPermalink }}">
               <a href="{{ $p.Page.RelPermalink }}">
-                <span>{{ $p.Page.Title }}    {{ if $.Site.Params.showVisitedLinks}}  <i class="fa fa-check read-icon">  {{ end }} </i></span>
+                <span>{{ $p.Page.Title }}    {{ if $.Site.Params.showVisitedLinks}}  <i class="fa fa-check read-icon"></i>  {{ end }} </span>
               </a>
             </li>
           {{ end }}
@@ -80,6 +81,19 @@
      {{ if .Site.Params.showVisitedLinks}}
      <a class="padding" href="#" data-clear-history-toggle=""><i class="fa fa-fw fa-history"></i> Clear History</a>
      {{ end }}
+    <ul class="topics">
+    <h4>Useful links:</h4>
+      <li class="dd-item">
+        <a href="https://github.com/libpasta/libpasta">
+          <i class="fa fa-github" aria-hidden="true"></i> Github
+        </a>
+      </li>
+      <li>
+        <a href="https://libpasta.github.io/doc/libpasta/">
+          <i class="fa fa-book" aria-hidden="true"></i> Documentation
+        </a>
+      </li>
+    </ul>
     <section id="footer">
       {{ partial "menu-footer.html" . }}
     </section>

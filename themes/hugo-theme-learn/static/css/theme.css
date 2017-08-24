@@ -180,6 +180,10 @@ textarea:focus, input[type="email"]:focus, input[type="number"]:focus, input[typ
 #sidebar a {
     color: #ccc;
 }
+#sidebar h4 {
+    font-weight: 220;
+    color: #ccc;
+}
 #sidebar a:hover {
     color: #e6e6e6;
 }

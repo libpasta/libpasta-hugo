@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="generator" content="rustdoc">
+    <meta name="description" content="API documentation for the Rust `primitives` mod in crate `libpasta`.">
+    <meta name="keywords" content="rust, rustlang, rust-lang, primitives">
+
+    <title>libpasta::primitives - Rust</title>
+
+    <link rel="stylesheet" type="text/css" href="../../normalize.css">
+    <link rel="stylesheet" type="text/css" href="../../rustdoc.css">
+    <link rel="stylesheet" type="text/css" href="../../main.css">
+    
+
+    
+    
+</head>
+<body class="rustdoc mod">
+    <!--[if lte IE 8]>
+    <div class="warning">
+        This old browser is unsupported and will most likely display funky
+        things.
+    </div>
+    <![endif]-->
+
+    
+
+    <nav class="sidebar">
+        
+        <p class='location'>Module primitives</p><div class="block items"><ul><li><a href="#structs">Structs</a></li><li><a href="#enums">Enums</a></li><li><a href="#traits">Traits</a></li></ul></div><p class='location'><a href='../index.html'>libpasta</a></p><script>window.sidebarCurrent = {name: 'primitives', ty: 'mod', relpath: '../'};</script><script defer src="../sidebar-items.js"></script>
+    </nav>
+
+    <nav class="sub">
+        <form class="search-form js-only">
+            <div class="search-container">
+                <input class="search-input" name="search"
+                       autocomplete="off"
+                       placeholder="Click or press ‘S’ to search, ‘?’ for more options…"
+                       type="search">
+            </div>
+        </form>
+    </nav>
+
+    <section id='main' class="content">
+<h1 class='fqn'><span class='in-band'>Module <a href='../index.html'>libpasta</a>::<wbr><a class="mod" href=''>primitives</a></span><span class='out-of-band'><span id='render-detail'>
+                   <a id="toggle-all-docs" href="javascript:void(0)" title="collapse all docs">
+                       [<span class='inner'>&#x2212;</span>]
+                   </a>
+               </span><a class='srclink' href='../../src/libpasta/primitives/mod.rs.html#1-334' title='goto source code'>[src]</a></span></h1>
+<div class='docblock'><p><code>Primitive</code> in <code>libpasta</code> refers to the raw hashing algorithms as
+implemented in many libraries.</p>
+
+<p>The main algorithms here are re-exported for general use.
+Each algorithm has a <code>new</code> and <code>default</code> function. The former can
+be provided parameters and creates a new dynamic instance of that
+parameter set. Whereas the latter refers to a statically referenced 
+parameter set.</p>
+
+<p>All implementations are wrapped in a <code>Primitive</code> struct,
+which in effect works like a trait, since it derefs to a <code>PrimitiveImpl</code>.
+This means that whether using a new or default parameter set, the overall
+behaviour is equivalent.</p>
+</div><h2 id='structs' class='section-header'><a href="#structs">Structs</a></h2>
+<table>
+                       <tr class=' module-item'>
+                           <td><a class="struct" href="struct.Argon2.html"
+                                  title='struct libpasta::primitives::Argon2'>Argon2</a></td>
+                           <td class='docblock-short'>
+                                <p>Parameter set for Argon2.</p>
+                           </td>
+                       </tr>
+                       <tr class=' module-item'>
+                           <td><a class="struct" href="struct.Bcrypt.html"
+                                  title='struct libpasta::primitives::Bcrypt'>Bcrypt</a></td>
+                           <td class='docblock-short'>
+                                <p><code>bcrypt</code> parameter set.</p>
+                           </td>
+                       </tr>
+                       <tr class=' module-item'>
+                           <td><a class="struct" href="struct.Hmac.html"
+                                  title='struct libpasta::primitives::Hmac'>Hmac</a></td>
+                           <td class='docblock-short'>
+                                <p>Password storage strengthening using HMAC.</p>
+                           </td>
+                       </tr>
+                       <tr class=' module-item'>
+                           <td><a class="struct" href="struct.Pbkdf2.html"
+                                  title='struct libpasta::primitives::Pbkdf2'>Pbkdf2</a></td>
+                           <td class='docblock-short'>
+                                <p>Struct holding <code>PBKDF2</code> parameters.</p>
+                           </td>
+                       </tr>
+                       <tr class=' module-item'>
+                           <td><a class="struct" href="struct.Primitive.html"
+                                  title='struct libpasta::primitives::Primitive'>Primitive</a></td>
+                           <td class='docblock-short'>
+                                <p>Password hashing primitives</p>
+                           </td>
+                       </tr>
+                       <tr class=' module-item'>
+                           <td><a class="struct" href="struct.RingPbkdf2.html"
+                                  title='struct libpasta::primitives::RingPbkdf2'>RingPbkdf2</a></td>
+                           <td class='docblock-short'>
+                                <p>Struct holding <code>PBKDF2</code> parameters.</p>
+                           </td>
+                       </tr>
+                       <tr class=' module-item'>
+                           <td><a class="struct" href="struct.Scrypt.html"
+                                  title='struct libpasta::primitives::Scrypt'>Scrypt</a></td>
+                           <td class='docblock-short'>
+                                <p>Struct holding <code>scrypt</code> parameters.</p>
+                           </td>
+                       </tr></table><h2 id='enums' class='section-header'><a href="#enums">Enums</a></h2>
+<table>
+                       <tr class=' module-item'>
+                           <td><a class="enum" href="enum.Sod.html"
+                                  title='enum libpasta::primitives::Sod'>Sod</a></td>
+                           <td class='docblock-short'>
+                                <p>Enum to hold either static references or reference-counted owned objects.
+Implements <code>Deref</code> to <code>T</code> for ease of use.
+Since internal data is either a static reference, or an <code>Arc</code>, cloning
+is a cheap operation.</p>
+                           </td>
+                       </tr></table><h2 id='traits' class='section-header'><a href="#traits">Traits</a></h2>
+<table>
+                       <tr class=' module-item'>
+                           <td><a class="trait" href="trait.PrimitiveImpl.html"
+                                  title='trait libpasta::primitives::PrimitiveImpl'>PrimitiveImpl</a></td>
+                           <td class='docblock-short'>
+                                <p>Trait defining the functionality of a hashing primitive.</p>
+                           </td>
+                       </tr></table></section>
+    <section id='search' class="content hidden"></section>
+
+    <section class="footer"></section>
+
+    <aside id="help" class="hidden">
+        <div>
+            <h1 class="hidden">Help</h1>
+
+            <div class="shortcuts">
+                <h2>Keyboard Shortcuts</h2>
+
+                <dl>
+                    <dt>?</dt>
+                    <dd>Show this help dialog</dd>
+                    <dt>S</dt>
+                    <dd>Focus the search field</dd>
+                    <dt>&larrb;</dt>
+                    <dd>Move up in search results</dd>
+                    <dt>&rarrb;</dt>
+                    <dd>Move down in search results</dd>
+                    <dt>&#9166;</dt>
+                    <dd>Go to active search result</dd>
+                    <dt>+</dt>
+                    <dd>Collapse/expand all sections</dd>
+                </dl>
+            </div>
+
+            <div class="infos">
+                <h2>Search Tricks</h2>
+
+                <p>
+                    Prefix searches with a type followed by a colon (e.g.
+                    <code>fn:</code>) to restrict the search to a given type.
+                </p>
+
+                <p>
+                    Accepted types are: <code>fn</code>, <code>mod</code>,
+                    <code>struct</code>, <code>enum</code>,
+                    <code>trait</code>, <code>type</code>, <code>macro</code>,
+                    and <code>const</code>.
+                </p>
+
+                <p>
+                    Search functions by type signature (e.g.
+                    <code>vec -> usize</code> or <code>* -> vec</code>)
+                </p>
+            </div>
+        </div>
+    </aside>
+
+    
+
+    <script>
+        window.rootPath = "../../";
+        window.currentCrate = "libpasta";
+    </script>
+    <script src="../../main.js"></script>
+    <script defer src="../../search-index.js"></script>
+</body>
+</html>

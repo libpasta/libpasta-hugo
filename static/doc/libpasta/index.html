@@ -1,0 +1,228 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="generator" content="rustdoc">
+    <meta name="description" content="API documentation for the Rust `libpasta` crate.">
+    <meta name="keywords" content="rust, rustlang, rust-lang, libpasta">
+
+    <title>libpasta - Rust</title>
+
+    <link rel="stylesheet" type="text/css" href="../normalize.css">
+    <link rel="stylesheet" type="text/css" href="../rustdoc.css">
+    <link rel="stylesheet" type="text/css" href="../main.css">
+    
+
+    
+    
+</head>
+<body class="rustdoc mod">
+    <!--[if lte IE 8]>
+    <div class="warning">
+        This old browser is unsupported and will most likely display funky
+        things.
+    </div>
+    <![endif]-->
+
+    
+
+    <nav class="sidebar">
+        
+        <p class='location'>Crate libpasta</p><div class="block items"><ul><li><a href="#modules">Modules</a></li><li><a href="#macros">Macros</a></li><li><a href="#structs">Structs</a></li><li><a href="#functions">Functions</a></li></ul></div><p class='location'></p><script>window.sidebarCurrent = {name: 'libpasta', ty: 'mod', relpath: '../'};</script>
+    </nav>
+
+    <nav class="sub">
+        <form class="search-form js-only">
+            <div class="search-container">
+                <input class="search-input" name="search"
+                       autocomplete="off"
+                       placeholder="Click or press ‘S’ to search, ‘?’ for more options…"
+                       type="search">
+            </div>
+        </form>
+    </nav>
+
+    <section id='main' class="content">
+<h1 class='fqn'><span class='in-band'>Crate <a class="mod" href=''>libpasta</a></span><span class='out-of-band'><span id='render-detail'>
+                   <a id="toggle-all-docs" href="javascript:void(0)" title="collapse all docs">
+                       [<span class='inner'>&#x2212;</span>]
+                   </a>
+               </span><a class='srclink' href='../src/libpasta/lib.rs.html#15-420' title='goto source code'>[src]</a></span></h1>
+<div class='docblock'>
+<h1 id='pasta---password-storage' class='section-header'><a href='#pasta---password-storage'>Pasta - Password Storage</a></h1>
+<p><em>Making passwords painless</em></p>
+
+<p>This is a library designed to make secure password storage easy.</p>
+
+<p>For a more comprehensive introduction, see: <a href="https://libpasta.github.io/">https://libpasta.github.io/</a></p>
+
+<h2 id='examples' class='section-header'><a href='#examples'>Examples</a></h2>
+<p>The basic functionality for computing password hashes is:</p>
+
+<pre class="rust rust-example-rendered">
+<span class="kw">extern</span> <span class="kw">crate</span> <span class="ident">libpasta</span>;
+<span class="comment">// We re-export the rpassword crate for CLI password input.</span>
+<span class="kw">use</span> <span class="ident">libpasta</span>::<span class="ident">rpassword</span>::<span class="kw-2">*</span>;
+
+<span class="kw">fn</span> <span class="ident">main</span>() {
+    <span class="kw">let</span> <span class="ident">password</span> <span class="op">=</span> <span class="ident">prompt_password_stdout</span>(<span class="string">&quot;Please enter your password:&quot;</span>).<span class="ident">unwrap</span>();
+    <span class="kw">let</span> <span class="ident">password_hash</span> <span class="op">=</span> <span class="ident">libpasta</span>::<span class="ident">hash_password</span>(<span class="ident">password</span>);
+    <span class="macro">println</span><span class="macro">!</span>(<span class="string">&quot;The stored password is: &#39;{}&#39;&quot;</span>, <span class="ident">password_hash</span>);
+}</pre>
+
+<h2 id='supported-formats' class='section-header'><a href='#supported-formats'>Supported formats</a></h2>
+<p><code>libpasta</code> attempts to support some legacy formats. For example, the <code>bcrypt</code>
+format <code>$2y$...</code>.</p>
+</div><h2 id='modules' class='section-header'><a href="#modules">Modules</a></h2>
+<table>
+                       <tr class=' module-item'>
+                           <td><a class="mod" href="config/index.html"
+                                  title='mod libpasta::config'>config</a></td>
+                           <td class='docblock-short'>
+                                <p>Configuration module</p>
+                           </td>
+                       </tr>
+                       <tr class=' module-item'>
+                           <td><a class="mod" href="errors/index.html"
+                                  title='mod libpasta::errors'>errors</a></td>
+                           <td class='docblock-short'>
+                                <p><code>libpasta</code> errors.</p>
+                           </td>
+                       </tr>
+                       <tr class=' module-item'>
+                           <td><a class="mod" href="hashing/index.html"
+                                  title='mod libpasta::hashing'>hashing</a></td>
+                           <td class='docblock-short'>
+                                <p>Password hashing functionality</p>
+                           </td>
+                       </tr>
+                       <tr class=' module-item'>
+                           <td><a class="mod" href="key/index.html"
+                                  title='mod libpasta::key'>key</a></td>
+                           <td class='docblock-short'>
+                                <p>The <code>key</code> module is for managing key sources.</p>
+                           </td>
+                       </tr>
+                       <tr class=' module-item'>
+                           <td><a class="mod" href="primitives/index.html"
+                                  title='mod libpasta::primitives'>primitives</a></td>
+                           <td class='docblock-short'>
+                                <p><code>Primitive</code> in <code>libpasta</code> refers to the raw hashing algorithms as
+implemented in many libraries.</p>
+                           </td>
+                       </tr>
+                       <tr class=' module-item'>
+                           <td><a class="mod" href="rpassword/index.html"
+                                  title='mod libpasta::rpassword'>rpassword</a></td>
+                           <td class='docblock-short'>
+                                <p>Re-export rpassword for convenience.</p>
+                           </td>
+                       </tr></table><h2 id='macros' class='section-header'><a href="#macros">Macros</a></h2>
+<table>
+                       <tr class=' module-item'>
+                           <td><a class="macro" href="macro.benches.html"
+                                  title='macro libpasta::benches'>benches</a></td>
+                           <td class='docblock-short'>
+                                
+                           </td>
+                       </tr></table><h2 id='structs' class='section-header'><a href="#structs">Structs</a></h2>
+<table>
+                       <tr class=' module-item'>
+                           <td><a class="struct" href="struct.Cleartext.html"
+                                  title='struct libpasta::Cleartext'>Cleartext</a></td>
+                           <td class='docblock-short'>
+                                <p>A simple wrapper for a password to denote it is a cleartext password.</p>
+                           </td>
+                       </tr></table><h2 id='functions' class='section-header'><a href="#functions">Functions</a></h2>
+<table>
+                       <tr class=' module-item'>
+                           <td><a class="fn" href="fn.hash_password.html"
+                                  title='fn libpasta::hash_password'>hash_password</a></td>
+                           <td class='docblock-short'>
+                                <p>Generates a default hash for a given password.</p>
+                           </td>
+                       </tr>
+                       <tr class=' module-item'>
+                           <td><a class="fn" href="fn.migrate_hash.html"
+                                  title='fn libpasta::migrate_hash'>migrate_hash</a></td>
+                           <td class='docblock-short'>
+                                <p>Migrate the input hash to the current recommended hash.</p>
+                           </td>
+                       </tr>
+                       <tr class=' module-item'>
+                           <td><a class="fn" href="fn.verify_password.html"
+                                  title='fn libpasta::verify_password'>verify_password</a></td>
+                           <td class='docblock-short'>
+                                <p>Verifies the provided password matches the inputted hash string.</p>
+                           </td>
+                       </tr>
+                       <tr class=' module-item'>
+                           <td><a class="fn" href="fn.verify_password_update_hash.html"
+                                  title='fn libpasta::verify_password_update_hash'>verify_password_update_hash</a></td>
+                           <td class='docblock-short'>
+                                <p>Verifies a supplied password against a previously computed password hash,
+and performs an in-place update of the hash value if the password verifies.
+Hence this needs to take a mutable <code>String</code> reference.</p>
+                           </td>
+                       </tr></table></section>
+    <section id='search' class="content hidden"></section>
+
+    <section class="footer"></section>
+
+    <aside id="help" class="hidden">
+        <div>
+            <h1 class="hidden">Help</h1>
+
+            <div class="shortcuts">
+                <h2>Keyboard Shortcuts</h2>
+
+                <dl>
+                    <dt>?</dt>
+                    <dd>Show this help dialog</dd>
+                    <dt>S</dt>
+                    <dd>Focus the search field</dd>
+                    <dt>&larrb;</dt>
+                    <dd>Move up in search results</dd>
+                    <dt>&rarrb;</dt>
+                    <dd>Move down in search results</dd>
+                    <dt>&#9166;</dt>
+                    <dd>Go to active search result</dd>
+                    <dt>+</dt>
+                    <dd>Collapse/expand all sections</dd>
+                </dl>
+            </div>
+
+            <div class="infos">
+                <h2>Search Tricks</h2>
+
+                <p>
+                    Prefix searches with a type followed by a colon (e.g.
+                    <code>fn:</code>) to restrict the search to a given type.
+                </p>
+
+                <p>
+                    Accepted types are: <code>fn</code>, <code>mod</code>,
+                    <code>struct</code>, <code>enum</code>,
+                    <code>trait</code>, <code>type</code>, <code>macro</code>,
+                    and <code>const</code>.
+                </p>
+
+                <p>
+                    Search functions by type signature (e.g.
+                    <code>vec -> usize</code> or <code>* -> vec</code>)
+                </p>
+            </div>
+        </div>
+    </aside>
+
+    
+
+    <script>
+        window.rootPath = "../";
+        window.currentCrate = "libpasta";
+    </script>
+    <script src="../main.js"></script>
+    <script defer src="../search-index.js"></script>
+</body>
+</html>

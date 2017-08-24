@@ -1,0 +1,1 @@
+initSidebarItems({"enum":[["Algorithm","`libpasta` password hashing algorithms can be nested, which is captured by this recursive enum."]],"struct":[["Output","Represents the output of a password hashing algorithm."]]});

@@ -296,6 +296,29 @@
 <span id="251">251</span>
 <span id="252">252</span>
 <span id="253">253</span>
+<span id="254">254</span>
+<span id="255">255</span>
+<span id="256">256</span>
+<span id="257">257</span>
+<span id="258">258</span>
+<span id="259">259</span>
+<span id="260">260</span>
+<span id="261">261</span>
+<span id="262">262</span>
+<span id="263">263</span>
+<span id="264">264</span>
+<span id="265">265</span>
+<span id="266">266</span>
+<span id="267">267</span>
+<span id="268">268</span>
+<span id="269">269</span>
+<span id="270">270</span>
+<span id="271">271</span>
+<span id="272">272</span>
+<span id="273">273</span>
+<span id="274">274</span>
+<span id="275">275</span>
+<span id="276">276</span>
 </pre><pre class="rust ">
 <span class="doccomment">//! Serde deserialize for password hashes</span>
 <span class="doccomment">//!</span>
@@ -316,7 +339,7 @@
 <span class="kw">use</span> <span class="ident">serde</span>::<span class="ident">de</span>::{<span class="self">self</span>, <span class="ident">Visitor</span>};
 <span class="kw">use</span> <span class="ident">serde</span>::<span class="ident">de</span>::<span class="ident">Error</span>;
 <span class="kw">use</span> <span class="ident">serde_mcf</span>;
-<span class="kw">use</span> <span class="ident">serde_mcf</span>::{<span class="ident">base64</span>, <span class="ident">base64bcrypt</span>};
+<span class="kw">use</span> <span class="ident">serde_mcf</span>::{<span class="ident">base64</span>, <span class="ident">base64bcrypt</span>, <span class="ident">Hashes</span>};
 
 <span class="kw">use</span> <span class="ident">std</span>::<span class="ident">fmt</span>;
 
@@ -328,15 +351,16 @@
 <span class="doccomment">/// `Mcf`: `$&lt;alg-id&gt;$&lt;params map&gt;$&lt;salt&gt;$&lt;hash&gt;`</span>
 <span class="doccomment">/// `Scrypt`: `$(scrypt|rscrypt)$&lt;params&gt;$&lt;salt&gt;$&lt;hash&gt;`</span>
 <span class="doccomment">/// `Pasta`: `$&lt;MCF-hash&gt;` or `$!&lt;Pasta-hash&gt;` (recursively)</span>
+<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Debug</span>, <span class="ident">PartialEq</span>)]</span>
 <span class="kw">enum</span> <span class="ident">SupportedVariants</span> {
-    <span class="ident">Bcrypt</span>(<span class="ident">serde_mcf</span>::<span class="ident">Hashes</span>),
-    <span class="ident">Mcf</span>(<span class="ident">serde_mcf</span>::<span class="ident">Hashes</span>),
-    <span class="ident">Scrypt</span>,
+    <span class="ident">Bcrypt</span>(<span class="ident">Hashes</span>),
+    <span class="ident">Mcf</span>(<span class="ident">Hashes</span>),
     <span class="ident">Pasta</span>(<span class="ident">PastaVariants</span>),
 }
 
 <span class="doccomment">/// A Pasta hash is either a sing hash parameterisation, or a recursive</span>
 <span class="doccomment">/// structure, containing many hash parameters.</span>
+<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Debug</span>, <span class="ident">PartialEq</span>)]</span>
 <span class="kw">enum</span> <span class="ident">PastaVariants</span> {
     <span class="ident">Single</span>,
     <span class="ident">Nested</span>,
@@ -352,7 +376,7 @@
 <span class="kw">struct</span> <span class="ident">BcryptFields</span> {
     <span class="ident">cost</span>: <span class="ident">u32</span>,
     <span class="attribute">#[<span class="ident">serde</span>(<span class="ident">with</span> <span class="op">=</span> <span class="string">&quot;base64bcrypt&quot;</span>)]</span>
-    <span class="ident">salthash</span>: (<span class="ident">Vec</span><span class="op">&lt;</span><span class="ident">u8</span><span class="op">&gt;</span>, <span class="ident">Vec</span><span class="op">&lt;</span><span class="ident">u8</span><span class="op">&gt;</span>)
+    <span class="ident">salthash</span>: (<span class="ident">Vec</span><span class="op">&lt;</span><span class="ident">u8</span><span class="op">&gt;</span>, <span class="ident">Vec</span><span class="op">&lt;</span><span class="ident">u8</span><span class="op">&gt;</span>),
 }
 
 <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Deserialize</span>)]</span>
@@ -361,34 +385,22 @@
     <span class="attribute">#[<span class="ident">serde</span>(<span class="ident">with</span> <span class="op">=</span> <span class="string">&quot;base64&quot;</span>)]</span>
     <span class="kw">pub</span> <span class="ident">salt</span>: <span class="ident">Vec</span><span class="op">&lt;</span><span class="ident">u8</span><span class="op">&gt;</span>,
     <span class="attribute">#[<span class="ident">serde</span>(<span class="ident">with</span> <span class="op">=</span> <span class="string">&quot;base64&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">hash</span>: <span class="ident">Vec</span><span class="op">&lt;</span><span class="ident">u8</span><span class="op">&gt;</span>
+    <span class="kw">pub</span> <span class="ident">hash</span>: <span class="ident">Vec</span><span class="op">&lt;</span><span class="ident">u8</span><span class="op">&gt;</span>,
 }
-
-<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Deserialize</span>)]</span>
-<span class="kw">struct</span> <span class="ident">ScryptFields</span> {
-    <span class="attribute">#[<span class="ident">serde</span>(<span class="ident">with</span> <span class="op">=</span> <span class="string">&quot;base64&quot;</span>)]</span>
-    <span class="ident">params</span>: <span class="ident">Vec</span><span class="op">&lt;</span><span class="ident">u8</span><span class="op">&gt;</span>,
-    <span class="attribute">#[<span class="ident">serde</span>(<span class="ident">with</span> <span class="op">=</span> <span class="string">&quot;base64&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">salt</span>: <span class="ident">Vec</span><span class="op">&lt;</span><span class="ident">u8</span><span class="op">&gt;</span>,
-    <span class="attribute">#[<span class="ident">serde</span>(<span class="ident">with</span> <span class="op">=</span> <span class="string">&quot;base64&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">hash</span>: <span class="ident">Vec</span><span class="op">&lt;</span><span class="ident">u8</span><span class="op">&gt;</span>
-}
-
-
 
 <span class="doccomment">/// The nested Pasta format is specified by a $&lt;id&gt;$&lt;params&gt; parameterising the</span>
 <span class="doccomment">/// outer layer hash algorithm, followed by another set of algorithm parameters.</span>
 <span class="doccomment">/// This inner hash may also a further layer of nested params.</span>
 <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Deserialize</span>)]</span>
 <span class="kw">struct</span> <span class="ident">PastaNest</span> {
-    <span class="ident">outer_id</span>: <span class="ident">serde_mcf</span>::<span class="ident">Hashes</span>,
+    <span class="ident">outer_id</span>: <span class="ident">Hashes</span>,
     <span class="ident">outer_params</span>: <span class="ident">serde_mcf</span>::<span class="ident">Map</span><span class="op">&lt;</span><span class="ident">String</span>, <span class="ident">serde_mcf</span>::<span class="ident">Value</span><span class="op">&gt;</span>,
     <span class="ident">inner</span>: <span class="ident">Output</span>,
 }
 
 <span class="comment">// Deserialize Output using OutputVisitor</span>
 <span class="kw">impl</span><span class="op">&lt;</span><span class="lifetime">&#39;de</span><span class="op">&gt;</span> <span class="ident">Deserialize</span><span class="op">&lt;</span><span class="lifetime">&#39;de</span><span class="op">&gt;</span> <span class="kw">for</span> <span class="ident">Output</span> {
-    <span class="kw">fn</span> <span class="ident">deserialize</span><span class="op">&lt;</span><span class="ident">D</span><span class="op">&gt;</span>(<span class="ident">deserializer</span>: <span class="ident">D</span>) <span class="op">-&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="ident">Output</span>, <span class="ident">D</span>::<span class="ident">Error</span><span class="op">&gt;</span>
+    <span class="kw">fn</span> <span class="ident">deserialize</span><span class="op">&lt;</span><span class="ident">D</span><span class="op">&gt;</span>(<span class="ident">deserializer</span>: <span class="ident">D</span>) <span class="op">-&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="self">Self</span>, <span class="ident">D</span>::<span class="ident">Error</span><span class="op">&gt;</span>
         <span class="kw">where</span> <span class="ident">D</span>: <span class="ident">Deserializer</span><span class="op">&lt;</span><span class="lifetime">&#39;de</span><span class="op">&gt;</span>
     {
         <span class="ident">deserializer</span>.<span class="ident">deserialize_struct</span>(<span class="string">&quot;var_container&quot;</span>, <span class="kw-2">&amp;</span><span class="ident">VAR_STRUCT</span>, <span class="ident">OutputVisitor</span>)
@@ -424,6 +436,10 @@
                 <span class="kw">let</span> _: <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">String</span><span class="op">&gt;</span> <span class="op">=</span> <span class="ident">map</span>.<span class="ident">next_key</span>()<span class="question-mark">?</span>;
                 <span class="kw">let</span> <span class="ident">fields</span>: <span class="ident">BcryptFields</span> <span class="op">=</span> <span class="ident">map</span>.<span class="ident">next_value</span>()<span class="question-mark">?</span>;
                 <span class="kw">let</span> <span class="ident">prim</span> <span class="op">=</span> ::<span class="ident">primitives</span>::<span class="ident">Bcrypt</span>::<span class="ident">new</span>(<span class="ident">fields</span>.<span class="ident">cost</span>);
+                <span class="kw">if</span> <span class="ident">prim</span> <span class="op">==</span> ::<span class="ident">primitives</span>::<span class="ident">Poisoned</span>.<span class="ident">into</span>() {
+                    <span class="attribute">#[<span class="ident">allow</span>(<span class="ident">use_debug</span>)]</span>
+                    <span class="kw">return</span> <span class="prelude-val">Err</span>(<span class="ident">V</span>::<span class="ident">Error</span>::<span class="ident">custom</span>(<span class="macro">format</span><span class="macro">!</span>(<span class="string">&quot;failed to deserialize as {:?}&quot;</span>, <span class="ident">var</span>)));
+                }
                 <span class="prelude-val">Ok</span>(<span class="ident">Output</span> {
                     <span class="ident">alg</span>: <span class="ident">Algorithm</span>::<span class="ident">Single</span>(<span class="ident">prim</span>),
                     <span class="ident">salt</span>: <span class="ident">fields</span>.<span class="ident">salthash</span>.<span class="number">0</span>,
@@ -436,48 +452,41 @@
                 <span class="kw">let</span> <span class="ident">prim</span> <span class="op">=</span> ::<span class="ident">primitives</span>::<span class="ident">Primitive</span>::<span class="ident">from</span>((<span class="kw-2">&amp;</span><span class="ident">var</span>, <span class="kw-2">&amp;</span><span class="ident">fields</span>.<span class="ident">params</span>));
                 <span class="kw">if</span> <span class="ident">prim</span> <span class="op">==</span> ::<span class="ident">primitives</span>::<span class="ident">Poisoned</span>.<span class="ident">into</span>() {
                     <span class="attribute">#[<span class="ident">allow</span>(<span class="ident">use_debug</span>)]</span>
-                    <span class="kw">return</span> <span class="prelude-val">Err</span>(<span class="ident">V</span>::<span class="ident">Error</span>::<span class="ident">custom</span>(<span class="macro">format</span><span class="macro">!</span>(<span class="string">&quot;failed to deserialize as {:?}&quot;</span>, <span class="ident">var</span>)))
+                    <span class="kw">return</span> <span class="prelude-val">Err</span>(<span class="ident">V</span>::<span class="ident">Error</span>::<span class="ident">custom</span>(<span class="macro">format</span><span class="macro">!</span>(<span class="string">&quot;failed to deserialize as {:?}&quot;</span>, <span class="ident">var</span>)));
                 }
                 <span class="prelude-val">Ok</span>(<span class="ident">Output</span> {
                     <span class="ident">alg</span>: <span class="ident">Algorithm</span>::<span class="ident">Single</span>(<span class="ident">prim</span>),
                     <span class="ident">salt</span>: <span class="ident">fields</span>.<span class="ident">salt</span>,
                     <span class="ident">hash</span>: <span class="ident">fields</span>.<span class="ident">hash</span>,
                 })
-            },
-            <span class="ident">SupportedVariants</span>::<span class="ident">Scrypt</span> <span class="op">=&gt;</span> {
-                <span class="kw">let</span> _: <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">String</span><span class="op">&gt;</span> <span class="op">=</span> <span class="ident">map</span>.<span class="ident">next_key</span>()<span class="question-mark">?</span>;
-                <span class="kw">let</span> <span class="ident">fields</span>: <span class="ident">ScryptFields</span> <span class="op">=</span> <span class="ident">map</span>.<span class="ident">next_value</span>()<span class="question-mark">?</span>;
-                <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">scrypt_bytes</span> <span class="op">=</span>  [<span class="number">0_u8</span>; <span class="number">9</span>];
-                <span class="ident">scrypt_bytes</span>.<span class="ident">copy_from_slice</span>(<span class="kw-2">&amp;</span><span class="ident">fields</span>.<span class="ident">params</span>);
-                <span class="kw">let</span> <span class="ident">prim</span> <span class="op">=</span> ::<span class="ident">primitives</span>::<span class="ident">Primitive</span>::<span class="ident">from</span>((<span class="kw-2">&amp;</span><span class="ident">serde_mcf</span>::<span class="ident">Hashes</span>::<span class="ident">Scrypt</span>, <span class="ident">scrypt_bytes</span>));
-                <span class="prelude-val">Ok</span>(<span class="ident">Output</span> {
-                    <span class="ident">alg</span>: <span class="ident">Algorithm</span>::<span class="ident">Single</span>(<span class="ident">prim</span>),
-                    <span class="ident">salt</span>: <span class="ident">fields</span>.<span class="ident">salt</span>,
-                    <span class="ident">hash</span>: <span class="ident">fields</span>.<span class="ident">hash</span>,
-                })
-            },
+            }
             <span class="ident">SupportedVariants</span>::<span class="ident">Pasta</span>(<span class="ident">var</span>) <span class="op">=&gt;</span> {
-                <span class="comment">// unimplemented!();</span>
                 <span class="kw">match</span> <span class="ident">var</span> {
                     <span class="ident">PastaVariants</span>::<span class="ident">Single</span> <span class="op">=&gt;</span> {
                         <span class="kw">let</span> _: <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">String</span><span class="op">&gt;</span> <span class="op">=</span> <span class="ident">map</span>.<span class="ident">next_key</span>()<span class="question-mark">?</span>;
                         <span class="kw">let</span> <span class="ident">output</span>: <span class="ident">serde_mcf</span>::<span class="ident">McfHash</span> <span class="op">=</span> <span class="ident">map</span>.<span class="ident">next_value</span>()<span class="question-mark">?</span>;
-                        <span class="kw">let</span> <span class="ident">prim</span> <span class="op">=</span> ::<span class="ident">primitives</span>::<span class="ident">Primitive</span>::<span class="ident">from</span>((<span class="kw-2">&amp;</span><span class="ident">output</span>.<span class="ident">algorithm</span>, <span class="kw-2">&amp;</span><span class="ident">output</span>.<span class="ident">parameters</span>));
+                        <span class="kw">let</span> <span class="ident">prim</span> <span class="op">=</span> ::<span class="ident">primitives</span>::<span class="ident">Primitive</span>::<span class="ident">from</span>((<span class="kw-2">&amp;</span><span class="ident">output</span>.<span class="ident">algorithm</span>,
+                                                                  <span class="kw-2">&amp;</span><span class="ident">output</span>.<span class="ident">parameters</span>));
+                        <span class="kw">if</span> <span class="ident">prim</span> <span class="op">==</span> ::<span class="ident">primitives</span>::<span class="ident">Poisoned</span>.<span class="ident">into</span>() {
+                            <span class="attribute">#[<span class="ident">allow</span>(<span class="ident">use_debug</span>)]</span>
+                            <span class="kw">return</span> <span class="prelude-val">Err</span>(<span class="ident">V</span>::<span class="ident">Error</span>::<span class="ident">custom</span>(<span class="macro">format</span><span class="macro">!</span>(<span class="string">&quot;failed to deserialize as {:?}&quot;</span>, <span class="ident">var</span>)));
+                        }
                         <span class="prelude-val">Ok</span>(<span class="ident">Output</span> {
                             <span class="ident">alg</span>: <span class="ident">Algorithm</span>::<span class="ident">Single</span>(<span class="ident">prim</span>),
                             <span class="ident">salt</span>: <span class="ident">output</span>.<span class="ident">salt</span>,
                             <span class="ident">hash</span>: <span class="ident">output</span>.<span class="ident">hash</span>,
                         })
-                    },
+                    }
                     <span class="ident">PastaVariants</span>::<span class="ident">Nested</span> <span class="op">=&gt;</span> {
                         <span class="kw">let</span> _: <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">String</span><span class="op">&gt;</span> <span class="op">=</span> <span class="ident">map</span>.<span class="ident">next_key</span>()<span class="question-mark">?</span>;
                         <span class="comment">// Note that in this case, PastaNest deserializer is</span>
                         <span class="comment">// recursively deserializing PastaVariants until</span>
                         <span class="comment">// reaching the end.</span>
                         <span class="kw">let</span> <span class="ident">fields</span>: <span class="ident">PastaNest</span> <span class="op">=</span> <span class="ident">map</span>.<span class="ident">next_value</span>()<span class="question-mark">?</span>;
-                        <span class="kw">let</span> <span class="ident">prim</span> <span class="op">=</span> ::<span class="ident">primitives</span>::<span class="ident">Primitive</span>::<span class="ident">from</span>((<span class="kw-2">&amp;</span><span class="ident">fields</span>.<span class="ident">outer_id</span>, <span class="kw-2">&amp;</span><span class="ident">fields</span>.<span class="ident">outer_params</span>));
+                        <span class="kw">let</span> <span class="ident">prim</span> <span class="op">=</span> ::<span class="ident">primitives</span>::<span class="ident">Primitive</span>::<span class="ident">from</span>((<span class="kw-2">&amp;</span><span class="ident">fields</span>.<span class="ident">outer_id</span>,
+                                                                  <span class="kw-2">&amp;</span><span class="ident">fields</span>.<span class="ident">outer_params</span>));
                         <span class="prelude-val">Ok</span>(<span class="ident">Output</span> {
-                            <span class="ident">alg</span>: <span class="ident">Algorithm</span>::<span class="ident">Nested</span> { 
+                            <span class="ident">alg</span>: <span class="ident">Algorithm</span>::<span class="ident">Nested</span> {
                                 <span class="ident">outer</span>: <span class="ident">prim</span>,
                                 <span class="ident">inner</span>: <span class="ident">Box</span>::<span class="ident">new</span>(<span class="ident">fields</span>.<span class="ident">inner</span>.<span class="ident">alg</span>.<span class="ident">clone</span>()),
                             },
@@ -492,7 +501,7 @@
 }
 
 <span class="kw">impl</span><span class="op">&lt;</span><span class="lifetime">&#39;de</span><span class="op">&gt;</span> <span class="ident">Deserialize</span><span class="op">&lt;</span><span class="lifetime">&#39;de</span><span class="op">&gt;</span> <span class="kw">for</span> <span class="ident">SupportedVariants</span> {
-    <span class="kw">fn</span> <span class="ident">deserialize</span><span class="op">&lt;</span><span class="ident">D</span><span class="op">&gt;</span>(<span class="ident">deserializer</span>: <span class="ident">D</span>) <span class="op">-&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="ident">SupportedVariants</span>, <span class="ident">D</span>::<span class="ident">Error</span><span class="op">&gt;</span>
+    <span class="kw">fn</span> <span class="ident">deserialize</span><span class="op">&lt;</span><span class="ident">D</span><span class="op">&gt;</span>(<span class="ident">deserializer</span>: <span class="ident">D</span>) <span class="op">-&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="self">Self</span>, <span class="ident">D</span>::<span class="ident">Error</span><span class="op">&gt;</span>
         <span class="kw">where</span> <span class="ident">D</span>: <span class="ident">Deserializer</span><span class="op">&lt;</span><span class="lifetime">&#39;de</span><span class="op">&gt;</span>
     {
         <span class="ident">deserializer</span>.<span class="ident">deserialize_identifier</span>(<span class="ident">VariantVisitor</span>)
@@ -518,39 +527,75 @@
         <span class="kw">let</span> <span class="ident">var</span> <span class="op">=</span> <span class="kw">match</span> <span class="ident">val</span> {
             <span class="string">&quot;&quot;</span> <span class="op">=&gt;</span> <span class="ident">SupportedVariants</span>::<span class="ident">Pasta</span>(<span class="ident">PastaVariants</span>::<span class="ident">Single</span>),
             <span class="string">&quot;!&quot;</span> <span class="op">=&gt;</span> <span class="ident">SupportedVariants</span>::<span class="ident">Pasta</span>(<span class="ident">PastaVariants</span>::<span class="ident">Nested</span>),
-            <span class="ident">var</span> @ <span class="string">&quot;2&quot;</span> <span class="op">|</span> <span class="ident">var</span> @ <span class="string">&quot;2a&quot;</span> <span class="op">|</span> <span class="ident">var</span> @ <span class="string">&quot;2b&quot;</span> <span class="op">|</span> <span class="ident">var</span> @ <span class="string">&quot;2x&quot;</span> <span class="op">|</span> <span class="ident">var</span> @ <span class="string">&quot;2y&quot;</span> <span class="op">=&gt;</span> {
-                <span class="kw">let</span> <span class="ident">variant</span> <span class="op">=</span> <span class="ident">serde_mcf</span>::<span class="ident">Hashes</span>::<span class="ident">from_id</span>(<span class="ident">var</span>).<span class="ident">ok_or_else</span>(<span class="op">||</span> {
-                    <span class="macro">error</span><span class="macro">!</span>(<span class="string">&quot;could not find MCF variant for supposed bcrypt hash&quot;</span>);
-                    <span class="ident">E</span>::<span class="ident">custom</span>(<span class="macro">format</span><span class="macro">!</span>(<span class="string">&quot;unknown MCF variant: {}&quot;</span>, <span class="ident">var</span>))
-                })<span class="question-mark">?</span>;
-                <span class="ident">SupportedVariants</span>::<span class="ident">Bcrypt</span>(<span class="ident">variant</span>)
-            }
-            <span class="ident">_var</span> @ <span class="string">&quot;scrypt&quot;</span> <span class="op">|</span> <span class="ident">_var</span> @ <span class="string">&quot;rscrypt&quot;</span> <span class="op">=&gt;</span> <span class="ident">SupportedVariants</span>::<span class="ident">Scrypt</span>,
             <span class="ident">var</span> <span class="op">=&gt;</span> {
-                <span class="kw">let</span> <span class="ident">variant</span> <span class="op">=</span> <span class="ident">serde_mcf</span>::<span class="ident">Hashes</span>::<span class="ident">from_id</span>(<span class="ident">var</span>).<span class="ident">ok_or_else</span>(<span class="op">||</span> <span class="ident">E</span>::<span class="ident">custom</span>(<span class="macro">format</span><span class="macro">!</span>(<span class="string">&quot;unknown MCF variant: {}&quot;</span>, <span class="ident">var</span>)))<span class="question-mark">?</span>;
-                <span class="ident">SupportedVariants</span>::<span class="ident">Mcf</span>(<span class="ident">variant</span>)
+                <span class="kw">let</span> <span class="ident">variant</span> <span class="op">=</span> <span class="ident">Hashes</span>::<span class="ident">from_id</span>(<span class="ident">var</span>).<span class="ident">ok_or_else</span>(<span class="op">||</span> {
+                        <span class="ident">E</span>::<span class="ident">custom</span>(<span class="macro">format</span><span class="macro">!</span>(<span class="string">&quot;unknown MCF variant: {}&quot;</span>, <span class="ident">var</span>))
+                    })<span class="question-mark">?</span>;
+
+                <span class="kw">match</span> <span class="ident">variant</span> {
+                    <span class="ident">Hashes</span>::<span class="ident">Bcrypt</span> <span class="op">|</span>
+                    <span class="ident">Hashes</span>::<span class="ident">Bcrypta</span> <span class="op">|</span>
+                    <span class="ident">Hashes</span>::<span class="ident">Bcryptx</span> <span class="op">|</span>
+                    <span class="ident">Hashes</span>::<span class="ident">Bcrypty</span> <span class="op">|</span>
+                    <span class="ident">Hashes</span>::<span class="ident">Bcryptb</span> <span class="op">=&gt;</span> {
+                        <span class="ident">SupportedVariants</span>::<span class="ident">Bcrypt</span>(<span class="ident">variant</span>)
+                    },
+                    _ <span class="op">=&gt;</span> <span class="ident">SupportedVariants</span>::<span class="ident">Mcf</span>(<span class="ident">variant</span>),
+                }
             }
         };
         <span class="prelude-val">Ok</span>(<span class="ident">var</span>)
     }
-
 }
 
 <span class="comment">// The deserializing of a `Primitive` is used in the nested `Pasta` variants.</span>
 <span class="kw">impl</span><span class="op">&lt;</span><span class="lifetime">&#39;de</span><span class="op">&gt;</span> <span class="ident">Deserialize</span><span class="op">&lt;</span><span class="lifetime">&#39;de</span><span class="op">&gt;</span> <span class="kw">for</span> <span class="ident">Primitive</span> {
-    <span class="kw">fn</span> <span class="ident">deserialize</span><span class="op">&lt;</span><span class="ident">D</span><span class="op">&gt;</span>(<span class="ident">deserializer</span>: <span class="ident">D</span>) <span class="op">-&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="ident">Primitive</span>, <span class="ident">D</span>::<span class="ident">Error</span><span class="op">&gt;</span>
+    <span class="kw">fn</span> <span class="ident">deserialize</span><span class="op">&lt;</span><span class="ident">D</span><span class="op">&gt;</span>(<span class="ident">deserializer</span>: <span class="ident">D</span>) <span class="op">-&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="self">Self</span>, <span class="ident">D</span>::<span class="ident">Error</span><span class="op">&gt;</span>
         <span class="kw">where</span> <span class="ident">D</span>: <span class="ident">Deserializer</span><span class="op">&lt;</span><span class="lifetime">&#39;de</span><span class="op">&gt;</span>
     {
         <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Deserialize</span>)]</span>
         <span class="kw">struct</span> <span class="ident">PrimitiveStruct</span> {
-            <span class="ident">id</span>: <span class="ident">serde_mcf</span>::<span class="ident">Hashes</span>,
+            <span class="ident">id</span>: <span class="ident">Hashes</span>,
             <span class="ident">params</span>: <span class="ident">serde_mcf</span>::<span class="ident">Map</span><span class="op">&lt;</span><span class="ident">String</span>, <span class="ident">serde_mcf</span>::<span class="ident">Value</span><span class="op">&gt;</span>,
         }
         <span class="kw">let</span> <span class="ident">prim</span> <span class="op">=</span> <span class="ident">PrimitiveStruct</span>::<span class="ident">deserialize</span>(<span class="ident">deserializer</span>)<span class="question-mark">?</span>;
         <span class="prelude-val">Ok</span>((<span class="kw-2">&amp;</span><span class="ident">prim</span>.<span class="ident">id</span>, <span class="kw-2">&amp;</span><span class="ident">prim</span>.<span class="ident">params</span>).<span class="ident">into</span>())
     }
 }
-</pre>
+
+<span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">test</span>)]</span>
+<span class="kw">mod</span> <span class="ident">test</span> {
+    <span class="kw">use</span> <span class="ident">serde_mcf</span>;
+    <span class="kw">use</span> <span class="ident">serde_yaml</span>;
+    <span class="kw">use</span> <span class="kw">super</span>::<span class="kw-2">*</span>;
+
+    <span class="attribute">#[<span class="ident">test</span>]</span>
+    <span class="kw">fn</span> <span class="ident">variant_tests</span>() {
+        <span class="kw">let</span> <span class="ident">variant</span> <span class="op">=</span> <span class="string">&quot;$argon2i&quot;</span>;
+        <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">serde_mcf</span>::<span class="ident">from_str</span>::<span class="op">&lt;</span><span class="ident">SupportedVariants</span><span class="op">&gt;</span>(<span class="ident">variant</span>).<span class="ident">unwrap</span>(),
+        <span class="ident">SupportedVariants</span>::<span class="ident">Mcf</span>(<span class="ident">Hashes</span>::<span class="ident">Argon2i</span>));
+
+        <span class="kw">let</span> <span class="ident">not_a_variant</span> <span class="op">=</span> <span class="string">&quot;12&quot;</span>;
+        <span class="macro">assert</span><span class="macro">!</span>(<span class="ident">serde_yaml</span>::<span class="ident">from_str</span>::<span class="op">&lt;</span><span class="ident">SupportedVariants</span><span class="op">&gt;</span>(<span class="ident">not_a_variant</span>).<span class="ident">is_err</span>());
+    }
+
+    <span class="attribute">#[<span class="ident">test</span>]</span>
+    <span class="kw">fn</span> <span class="ident">hash_tests</span>() {
+        <span class="kw">let</span> <span class="ident">hash</span> <span class="op">=</span> <span class="string">&quot;$$non-existant$$$&quot;</span>;
+        <span class="macro">assert</span><span class="macro">!</span>(<span class="ident">serde_mcf</span>::<span class="ident">from_str</span>::<span class="op">&lt;</span><span class="ident">Output</span><span class="op">&gt;</span>(<span class="ident">hash</span>).<span class="ident">is_err</span>());
+
+        <span class="kw">let</span> <span class="ident">hash</span> <span class="op">=</span> <span class="string">&quot;$argon2i$fake_map=12$salt$hash&quot;</span>;
+        <span class="macro">assert</span><span class="macro">!</span>(<span class="ident">serde_mcf</span>::<span class="ident">from_str</span>::<span class="op">&lt;</span><span class="ident">Output</span><span class="op">&gt;</span>(<span class="ident">hash</span>).<span class="ident">is_err</span>());
+    }
+
+    <span class="attribute">#[<span class="ident">test</span>]</span>
+    <span class="kw">fn</span> <span class="ident">de_bcrypt</span>() {
+        <span class="kw">let</span> <span class="ident">hash</span> <span class="op">=</span> <span class="string">&quot;$2a$10$175ikf/E6E.73e83.fJRbODnYWBwmfS0ENdzUBZbedUNGO.99wJfa&quot;</span>;
+        <span class="macro">assert</span><span class="macro">!</span>(<span class="ident">serde_mcf</span>::<span class="ident">from_str</span>::<span class="op">&lt;</span><span class="ident">Output</span><span class="op">&gt;</span>(<span class="ident">hash</span>).<span class="ident">is_ok</span>());
+        <span class="kw">let</span> <span class="ident">broken_hash</span> <span class="op">=</span> <span class="string">&quot;$2a$purple$175ikf/E6E.73e83.fJRbODnYWBwmfS0ENdzUBZbedUNGO.99wJfa&quot;</span>;
+        <span class="macro">assert</span><span class="macro">!</span>(<span class="ident">serde_mcf</span>::<span class="ident">from_str</span>::<span class="op">&lt;</span><span class="ident">Output</span><span class="op">&gt;</span>(<span class="ident">broken_hash</span>).<span class="ident">is_err</span>());
+    }
+}</pre>
 </section>
     <section id='search' class="content hidden"></section>
 

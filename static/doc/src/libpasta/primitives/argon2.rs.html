@@ -193,19 +193,49 @@
 <span id="148">148</span>
 <span id="149">149</span>
 <span id="150">150</span>
+<span id="151">151</span>
+<span id="152">152</span>
+<span id="153">153</span>
+<span id="154">154</span>
+<span id="155">155</span>
+<span id="156">156</span>
+<span id="157">157</span>
+<span id="158">158</span>
+<span id="159">159</span>
+<span id="160">160</span>
+<span id="161">161</span>
+<span id="162">162</span>
+<span id="163">163</span>
+<span id="164">164</span>
+<span id="165">165</span>
+<span id="166">166</span>
+<span id="167">167</span>
+<span id="168">168</span>
+<span id="169">169</span>
+<span id="170">170</span>
+<span id="171">171</span>
+<span id="172">172</span>
+<span id="173">173</span>
+<span id="174">174</span>
+<span id="175">175</span>
+<span id="176">176</span>
+<span id="177">177</span>
+<span id="178">178</span>
+<span id="179">179</span>
+<span id="180">180</span>
+<span id="181">181</span>
 </pre><pre class="rust ">
 <span class="kw">pub</span> <span class="kw">use</span> <span class="self">self</span>::<span class="ident">native</span>::<span class="ident">Argon2</span>;
 
 <span class="kw">mod</span> <span class="ident">native</span> {
     <span class="kw">extern</span> <span class="kw">crate</span> <span class="ident">argon2rs</span>;
-    
+
     <span class="kw">use</span> <span class="ident">primitives</span>::<span class="ident">Primitive</span>;
     <span class="kw">use</span> <span class="ident">primitives</span>::<span class="ident">sod</span>::<span class="ident">Sod</span>;
 
     <span class="kw">use</span> <span class="ident">serde_mcf</span>::<span class="ident">Hashes</span>;
 
     <span class="kw">use</span> <span class="ident">std</span>::<span class="ident">fmt</span>;
-    <span class="kw">use</span> <span class="ident">std</span>::<span class="ident">cmp</span>::{<span class="ident">PartialOrd</span>, <span class="ident">Ordering</span>};
 
     <span class="doccomment">/// Parameter set for Argon2.</span>
     <span class="doccomment">///</span>
@@ -223,11 +253,7 @@
 
         <span class="kw">fn</span> <span class="ident">params_as_vec</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-&gt;</span> <span class="ident">Vec</span><span class="op">&lt;</span>(<span class="kw-2">&amp;</span><span class="lifetime">&#39;static</span> <span class="ident">str</span>, <span class="ident">String</span>)<span class="op">&gt;</span> {
             <span class="kw">let</span> (_, <span class="ident">kib</span>, <span class="ident">passes</span>, <span class="ident">lanes</span>) <span class="op">=</span> <span class="self">self</span>.<span class="ident">algorithm</span>.<span class="ident">params</span>();
-            <span class="macro">vec</span><span class="macro">!</span>[
-                (<span class="string">&quot;m&quot;</span>, <span class="ident">kib</span>.<span class="ident">to_string</span>()),
-                (<span class="string">&quot;t&quot;</span>, <span class="ident">passes</span>.<span class="ident">to_string</span>()),
-                (<span class="string">&quot;p&quot;</span>, <span class="ident">lanes</span>.<span class="ident">to_string</span>()),
-            ]
+            <span class="macro">vec</span><span class="macro">!</span>[(<span class="string">&quot;m&quot;</span>, <span class="ident">kib</span>.<span class="ident">to_string</span>()), (<span class="string">&quot;t&quot;</span>, <span class="ident">passes</span>.<span class="ident">to_string</span>()), (<span class="string">&quot;p&quot;</span>, <span class="ident">lanes</span>.<span class="ident">to_string</span>())]
         }
 
         <span class="kw">fn</span> <span class="ident">hash_id</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-&gt;</span> <span class="ident">Hashes</span> {
@@ -248,15 +274,11 @@
         <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">default</span>() <span class="op">-&gt;</span> <span class="ident">Primitive</span> {
             <span class="ident">Primitive</span>(<span class="ident">Sod</span>::<span class="ident">Static</span>(<span class="kw-2">&amp;</span><span class="kw-2">*</span><span class="ident">DEFAULT</span>))
         }
-        
+
         <span class="kw">fn</span> <span class="ident">new_impl</span>(<span class="ident">passes</span>: <span class="ident">u32</span>, <span class="ident">lanes</span>: <span class="ident">u32</span>, <span class="ident">kib</span>: <span class="ident">u32</span>) <span class="op">-&gt;</span> <span class="self">Self</span> {
-            <span class="ident">Argon2</span> {
-                <span class="ident">algorithm</span>: <span class="ident">argon2rs</span>::<span class="ident">Argon2</span>::<span class="ident">new</span>(
-                    <span class="ident">passes</span>, 
-                    <span class="ident">lanes</span>, 
-                    <span class="ident">kib</span>, 
-                    <span class="ident">argon2rs</span>::<span class="ident">Variant</span>::<span class="ident">Argon2i</span>
-                ).<span class="ident">expect</span>(<span class="string">&quot;invalid Argon2 parameters&quot;</span>)
+            <span class="self">Self</span> {
+                <span class="ident">algorithm</span>: <span class="ident">argon2rs</span>::<span class="ident">Argon2</span>::<span class="ident">new</span>(<span class="ident">passes</span>, <span class="ident">lanes</span>, <span class="ident">kib</span>, <span class="ident">argon2rs</span>::<span class="ident">Variant</span>::<span class="ident">Argon2i</span>)
+                    .<span class="ident">expect</span>(<span class="string">&quot;invalid Argon2 parameters&quot;</span>),
             }
         }
 
@@ -271,21 +293,6 @@
             <span class="macro">write</span><span class="macro">!</span>(<span class="ident">f</span>, <span class="string">&quot;Argon2i: {:?}&quot;</span>, <span class="self">self</span>.<span class="ident">algorithm</span>.<span class="ident">params</span>())
         }
     }
-
-    <span class="kw">impl</span> <span class="ident">PartialEq</span> <span class="kw">for</span> <span class="ident">Argon2</span> {
-        <span class="kw">fn</span> <span class="ident">eq</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">other</span>: <span class="kw-2">&amp;</span><span class="self">Self</span>) <span class="op">-&gt;</span> <span class="ident">bool</span> {
-            <span class="self">self</span>.<span class="ident">algorithm</span>.<span class="ident">params</span>() <span class="op">==</span> <span class="ident">other</span>.<span class="ident">algorithm</span>.<span class="ident">params</span>()
-        }
-    }
-
-    <span class="kw">impl</span> <span class="ident">PartialOrd</span> <span class="kw">for</span> <span class="ident">Argon2</span> {
-        <span class="kw">fn</span> <span class="ident">partial_cmp</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">other</span>: <span class="kw-2">&amp;</span><span class="ident">Argon2</span>) <span class="op">-&gt;</span> <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">Ordering</span><span class="op">&gt;</span> {
-            <span class="kw">let</span> (_, <span class="ident">kib</span>, <span class="ident">passes</span>, <span class="ident">lanes</span>) <span class="op">=</span> <span class="self">self</span>.<span class="ident">algorithm</span>.<span class="ident">params</span>();
-            <span class="kw">let</span> (_, <span class="ident">kib2</span>, <span class="ident">passes2</span>, <span class="ident">lanes2</span>) <span class="op">=</span> <span class="ident">other</span>.<span class="ident">algorithm</span>.<span class="ident">params</span>();
-
-            <span class="prelude-val">Some</span>((<span class="ident">kib</span>, <span class="ident">passes</span>, <span class="ident">lanes</span>).<span class="ident">cmp</span>(<span class="kw-2">&amp;</span>(<span class="ident">kib2</span>, <span class="ident">passes2</span>, <span class="ident">lanes2</span>)))
-        }
-    }
 }
 
 
@@ -295,50 +302,105 @@
 <span class="kw">mod</span> <span class="ident">test</span> {
     <span class="kw">extern</span> <span class="kw">crate</span> <span class="ident">data_encoding</span>;
     <span class="kw">use</span> <span class="self">self</span>::<span class="ident">data_encoding</span>::<span class="ident">base16</span>;
-    <span class="kw">use</span> <span class="ident">serde_mcf</span> <span class="kw">as</span> <span class="ident">mcf</span>;
+    <span class="kw">use</span> <span class="ident">serde_mcf</span>;
     <span class="kw">use</span> <span class="kw">super</span>::<span class="kw-2">*</span>;
     <span class="kw">use</span> <span class="ident">hashing</span>::<span class="kw-2">*</span>;
 
-    <span class="kw">fn</span> <span class="ident">hashtest</span>(<span class="ident">passes</span>: <span class="ident">u32</span>, <span class="ident">m</span>: <span class="ident">u32</span>, <span class="ident">lanes</span>: <span class="ident">u32</span>, <span class="ident">password</span>: <span class="kw-2">&amp;</span><span class="ident">str</span>, <span class="ident">salt</span>: <span class="kw-2">&amp;</span><span class="ident">str</span>, <span class="ident">hexpected</span>: <span class="kw-2">&amp;</span><span class="ident">str</span>, <span class="ident">encoded</span>: <span class="kw-2">&amp;</span><span class="ident">str</span>) {
-        <span class="kw">let</span> <span class="ident">alg</span> <span class="op">=</span> <span class="ident">Argon2</span>::<span class="ident">new</span>(<span class="ident">passes</span>, <span class="ident">lanes</span>, <span class="number">1</span><span class="op">&lt;&lt;</span><span class="ident">m</span>);
+    <span class="attribute">#[<span class="ident">test</span>]</span>
+    <span class="kw">fn</span> <span class="ident">sanity_check</span>() {
+        <span class="kw">let</span> <span class="ident">password</span> <span class="op">=</span> <span class="string">&quot;hunter2&quot;</span>;
+        <span class="kw">let</span> <span class="ident">params</span> <span class="op">=</span> <span class="kw">super</span>::<span class="ident">Argon2</span>::<span class="ident">default</span>();
+        <span class="macro">println</span><span class="macro">!</span>(<span class="string">&quot;{:?}&quot;</span>, <span class="ident">params</span>);
+        <span class="kw">let</span> <span class="ident">salt</span> <span class="op">=</span> ::<span class="ident">get_salt</span>();
+        <span class="kw">let</span> <span class="ident">hash</span> <span class="op">=</span> <span class="ident">params</span>.<span class="ident">compute</span>(<span class="ident">password</span>.<span class="ident">as_bytes</span>(), <span class="kw-2">&amp;</span><span class="ident">salt</span>);
+        <span class="kw">let</span> <span class="ident">hash2</span> <span class="op">=</span> <span class="ident">params</span>.<span class="ident">compute</span>(<span class="ident">password</span>.<span class="ident">as_bytes</span>(), <span class="kw-2">&amp;</span><span class="ident">salt</span>);
+        <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">hash</span>, <span class="ident">hash2</span>);
+        <span class="kw">let</span> <span class="ident">out</span> <span class="op">=</span> <span class="ident">Output</span> {
+            <span class="ident">alg</span>: <span class="ident">Algorithm</span>::<span class="ident">Single</span>(<span class="ident">params</span>.<span class="ident">into</span>()),
+            <span class="ident">salt</span>: <span class="ident">salt</span>,
+            <span class="ident">hash</span>: <span class="ident">hash</span>,
+        };
+        <span class="macro">println</span><span class="macro">!</span>(<span class="string">&quot;{:?}&quot;</span>, <span class="ident">serde_mcf</span>::<span class="ident">to_string</span>(<span class="kw-2">&amp;</span><span class="ident">out</span>).<span class="ident">unwrap</span>());
+    }
+
+    <span class="kw">fn</span> <span class="ident">hashtest</span>(<span class="ident">passes</span>: <span class="ident">u32</span>,
+                <span class="ident">m</span>: <span class="ident">u32</span>,
+                <span class="ident">lanes</span>: <span class="ident">u32</span>,
+                <span class="ident">password</span>: <span class="kw-2">&amp;</span><span class="ident">str</span>,
+                <span class="ident">salt</span>: <span class="kw-2">&amp;</span><span class="ident">str</span>,
+                <span class="ident">hexpected</span>: <span class="kw-2">&amp;</span><span class="ident">str</span>,
+                <span class="ident">encoded</span>: <span class="kw-2">&amp;</span><span class="ident">str</span>) {
+        <span class="kw">let</span> <span class="ident">alg</span> <span class="op">=</span> <span class="ident">Argon2</span>::<span class="ident">new</span>(<span class="ident">passes</span>, <span class="ident">lanes</span>, <span class="number">1</span> <span class="op">&lt;&lt;</span> <span class="ident">m</span>);
         <span class="kw">let</span> <span class="ident">hash</span> <span class="op">=</span> <span class="ident">alg</span>.<span class="ident">compute</span>(<span class="ident">password</span>.<span class="ident">as_bytes</span>(), <span class="ident">salt</span>.<span class="ident">as_bytes</span>());
         <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">base16</span>::<span class="ident">encode</span>(<span class="kw-2">&amp;</span><span class="ident">hash</span>).<span class="ident">to_lowercase</span>(), <span class="ident">hexpected</span>);
-        <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">mcf</span>::<span class="ident">from_str</span>::<span class="op">&lt;</span><span class="ident">Output</span><span class="op">&gt;</span>(<span class="ident">encoded</span>).<span class="ident">unwrap</span>().<span class="ident">hash</span>, <span class="ident">hash</span>);
+        <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">serde_mcf</span>::<span class="ident">from_str</span>::<span class="op">&lt;</span><span class="ident">Output</span><span class="op">&gt;</span>(<span class="ident">encoded</span>).<span class="ident">unwrap</span>().<span class="ident">hash</span>, <span class="ident">hash</span>);
         <span class="kw">let</span> <span class="ident">output</span> <span class="op">=</span> <span class="ident">Output</span> {
             <span class="ident">alg</span>: <span class="ident">Algorithm</span>::<span class="ident">Single</span>(<span class="ident">alg</span>.<span class="ident">into</span>()),
             <span class="ident">hash</span>: <span class="ident">hash</span>,
             <span class="ident">salt</span>: <span class="ident">salt</span>.<span class="ident">as_bytes</span>().<span class="ident">to_vec</span>(),
         };
-        <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="kw-2">&amp;</span><span class="ident">mcf</span>::<span class="ident">to_string</span>(<span class="kw-2">&amp;</span><span class="ident">output</span>).<span class="ident">unwrap</span>()[<span class="number">1</span>..], <span class="ident">encoded</span>);
+        <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="kw-2">&amp;</span><span class="ident">serde_mcf</span>::<span class="ident">to_string</span>(<span class="kw-2">&amp;</span><span class="ident">output</span>).<span class="ident">unwrap</span>()[<span class="number">1</span>..], <span class="ident">encoded</span>);
     }
 
     <span class="attribute">#[<span class="ident">test</span>]</span>
     <span class="kw">fn</span> <span class="ident">argon2i_ref_tests</span>() {
-        <span class="ident">hashtest</span>(<span class="number">2</span>, <span class="number">8</span>, <span class="number">1</span>, <span class="string">&quot;password&quot;</span>, <span class="string">&quot;somesalt&quot;</span>,
+        <span class="ident">hashtest</span>(<span class="number">2</span>,
+                 <span class="number">8</span>,
+                 <span class="number">1</span>,
+                 <span class="string">&quot;password&quot;</span>,
+                 <span class="string">&quot;somesalt&quot;</span>,
                  <span class="string">&quot;fd4dd83d762c49bdeaf57c47bdcd0c2f1babf863fdeb490df63ede9975fccf06&quot;</span>,
                  <span class="string">&quot;$argon2i$m=256,t=2,p=1$c29tZXNhbHQ\
                  $/U3YPXYsSb3q9XxHvc0MLxur+GP960kN9j7emXX8zwY&quot;</span>);
-        <span class="ident">hashtest</span>(<span class="number">2</span>, <span class="number">8</span>, <span class="number">2</span>, <span class="string">&quot;password&quot;</span>, <span class="string">&quot;somesalt&quot;</span>,
+        <span class="ident">hashtest</span>(<span class="number">2</span>,
+                 <span class="number">8</span>,
+                 <span class="number">2</span>,
+                 <span class="string">&quot;password&quot;</span>,
+                 <span class="string">&quot;somesalt&quot;</span>,
                  <span class="string">&quot;b6c11560a6a9d61eac706b79a2f97d68b4463aa3ad87e00c07e2b01e90c564fb&quot;</span>,
                  <span class="string">&quot;$argon2i$m=256,t=2,p=2$c29tZXNhbHQ\
                  $tsEVYKap1h6scGt5ovl9aLRGOqOth+AMB+KwHpDFZPs&quot;</span>);
-        <span class="ident">hashtest</span>(<span class="number">1</span>, <span class="number">16</span>, <span class="number">1</span>, <span class="string">&quot;password&quot;</span>, <span class="string">&quot;somesalt&quot;</span>,
+        <span class="ident">hashtest</span>(<span class="number">1</span>,
+                 <span class="number">16</span>,
+                 <span class="number">1</span>,
+                 <span class="string">&quot;password&quot;</span>,
+                 <span class="string">&quot;somesalt&quot;</span>,
                  <span class="string">&quot;81630552b8f3b1f48cdb1992c4c678643d490b2b5eb4ff6c4b3438b5621724b2&quot;</span>,
                  <span class="string">&quot;$argon2i$m=65536,t=1,p=1$c29tZXNhbHQ\
                  $gWMFUrjzsfSM2xmSxMZ4ZD1JCytetP9sSzQ4tWIXJLI&quot;</span>);
-        <span class="ident">hashtest</span>(<span class="number">4</span>, <span class="number">16</span>, <span class="number">1</span>, <span class="string">&quot;password&quot;</span>, <span class="string">&quot;somesalt&quot;</span>,
+        <span class="ident">hashtest</span>(<span class="number">4</span>,
+                 <span class="number">16</span>,
+                 <span class="number">1</span>,
+                 <span class="string">&quot;password&quot;</span>,
+                 <span class="string">&quot;somesalt&quot;</span>,
                  <span class="string">&quot;f212f01615e6eb5d74734dc3ef40ade2d51d052468d8c69440a3a1f2c1c2847b&quot;</span>,
                  <span class="string">&quot;$argon2i$m=65536,t=4,p=1$c29tZXNhbHQ\
                  $8hLwFhXm6110c03D70Ct4tUdBSRo2MaUQKOh8sHChHs&quot;</span>);
-        <span class="ident">hashtest</span>(<span class="number">2</span>, <span class="number">16</span>, <span class="number">1</span>, <span class="string">&quot;differentpassword&quot;</span>, <span class="string">&quot;somesalt&quot;</span>,
+        <span class="ident">hashtest</span>(<span class="number">2</span>,
+                 <span class="number">16</span>,
+                 <span class="number">1</span>,
+                 <span class="string">&quot;differentpassword&quot;</span>,
+                 <span class="string">&quot;somesalt&quot;</span>,
                  <span class="string">&quot;e9c902074b6754531a3a0be519e5baf404b30ce69b3f01ac3bf21229960109a3&quot;</span>,
                  <span class="string">&quot;$argon2i$m=65536,t=2,p=1$c29tZXNhbHQ\
                  $6ckCB0tnVFMaOgvlGeW69ASzDOabPwGsO/ISKZYBCaM&quot;</span>);
-        <span class="ident">hashtest</span>(<span class="number">2</span>, <span class="number">16</span>, <span class="number">1</span>, <span class="string">&quot;password&quot;</span>, <span class="string">&quot;diffsalt&quot;</span>,
+        <span class="ident">hashtest</span>(<span class="number">2</span>,
+                 <span class="number">16</span>,
+                 <span class="number">1</span>,
+                 <span class="string">&quot;password&quot;</span>,
+                 <span class="string">&quot;diffsalt&quot;</span>,
                  <span class="string">&quot;79a103b90fe8aef8570cb31fc8b22259778916f8336b7bdac3892569d4f1c497&quot;</span>,
                  <span class="string">&quot;$argon2i$m=65536,t=2,p=1$ZGlmZnNhbHQ\
                  $eaEDuQ/orvhXDLMfyLIiWXeJFvgza3vaw4kladTxxJc&quot;</span>);
-        <span class="ident">hashtest</span>(<span class="number">2</span>, <span class="number">18</span>, <span class="number">1</span>, <span class="string">&quot;password&quot;</span>, <span class="string">&quot;somesalt&quot;</span>,
+    }
+
+    <span class="attribute">#[<span class="ident">test</span>]</span> <span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">feature</span> <span class="op">=</span> <span class="string">&quot;long_tests&quot;</span>)]</span>
+    <span class="kw">fn</span> <span class="ident">argon2i_ref_tests</span>() {
+        <span class="ident">hashtest</span>(<span class="number">2</span>,
+                 <span class="number">18</span>,
+                 <span class="number">1</span>,
+                 <span class="string">&quot;password&quot;</span>,
+                 <span class="string">&quot;somesalt&quot;</span>,
                  <span class="string">&quot;3e689aaa3d28a77cf2bc72a51ac53166761751182f1ee292e3f677a7da4c2467&quot;</span>,
                  <span class="string">&quot;$argon2i$m=262144,t=2,p=1$c29tZXNhbHQ\
                  $Pmiaqj0op3zyvHKlGsUxZnYXURgvHuKS4/Z3p9pMJGc&quot;</span>);

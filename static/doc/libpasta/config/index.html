@@ -48,13 +48,13 @@
                    <a id="toggle-all-docs" href="javascript:void(0)" title="collapse all docs">
                        [<span class='inner'>&#x2212;</span>]
                    </a>
-               </span><a class='srclink' href='../../src/libpasta/config.rs.html#1-307' title='goto source code'>[src]</a></span></h1>
+               </span><a class='srclink' href='../../src/libpasta/config.rs.html#1-373' title='goto source code'>[src]</a></span></h1>
 <div class='docblock'><p>Configuration module</p>
 
 <p>Included here are methods to setup and configure <code>libpasta</code>.
 Currently, this refers to the choice of default hashing algorithm.</p>
 
-<p>Configuration can be specified in two ways: through configuration files, 
+<p>Configuration can be specified in two ways: through configuration files,
 or programmatically.</p>
 
 <p>Configuration files are either found in the current path
@@ -62,12 +62,12 @@ with the name <code>.libpasta.yaml</code>, or an alternative path can be specifi
 using the environment variable <code>LIBPASTA_CFG</code>.</p>
 
 <p>Alternatively, the <code>set_primitive</code> function, and others, can be used
-to configure the library. However, note that once the library is &quot;in use&quot;, 
+to configure the library. However, note that once the library is &quot;in use&quot;,
 i.e. a function like <code>hash_password</code> has been called, then attempting
 to configure the library will cause a panic.</p>
 
 <p>There are a number of ways panics can happen through using the configuration
-files. <code>libpasta</code> does not try to recover gracefully if </p>
+files. <code>libpasta</code> does not try to recover gracefully if</p>
 </div><h2 id='structs' class='section-header'><a href="#structs">Structs</a></h2>
 <table>
                        <tr class=' module-item'>
@@ -88,10 +88,10 @@ further changes cannot be made.</p>
                            </td>
                        </tr>
                        <tr class=' module-item'>
-                           <td><a class="struct" href="struct.GlobalDefaults.html"
-                                  title='struct libpasta::config::GlobalDefaults'>GlobalDefaults</a></td>
+                           <td><a class="struct" href="struct.RANDOMNESS_SOURCE.html"
+                                  title='struct libpasta::config::RANDOMNESS_SOURCE'>RANDOMNESS_SOURCE</a></td>
                            <td class='docblock-short'>
-                                <p>Holds possible configuration options</p>
+                                <p>Global source of randomness for generating salts</p>
                            </td>
                        </tr></table><h2 id='functions' class='section-header'><a href="#functions">Functions</a></h2>
 <table>
@@ -103,10 +103,11 @@ further changes cannot be made.</p>
                            </td>
                        </tr>
                        <tr class=' module-item'>
-                           <td><a class="fn" href="fn.set_global.html"
-                                  title='fn libpasta::config::set_global'>set_global</a></td>
+                           <td><a class="fn" href="fn.from_file.html"
+                                  title='fn libpasta::config::from_file'>from_file</a></td>
                            <td class='docblock-short'>
-                                <p>Set all configuration values from provided struct.</p>
+                                <p>Adds the configuration specified in the supplied file to the global
+configuration</p>
                            </td>
                        </tr>
                        <tr class=' module-item'>
@@ -121,6 +122,13 @@ further changes cannot be made.</p>
                                   title='fn libpasta::config::set_primitive'>set_primitive</a></td>
                            <td class='docblock-short'>
                                 <p>Set the default hashing primitive to be used</p>
+                           </td>
+                       </tr>
+                       <tr class=' module-item'>
+                           <td><a class="fn" href="fn.to_string.html"
+                                  title='fn libpasta::config::to_string'>to_string</a></td>
+                           <td class='docblock-short'>
+                                <p>Print the global configuration as a YAML-formatted string.</p>
                            </td>
                        </tr></table></section>
     <section id='search' class="content hidden"></section>

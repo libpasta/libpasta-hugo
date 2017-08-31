@@ -10,7 +10,7 @@ hugo # if using a theme, replace by `hugo -t <yourtheme>`
 # URLs like /some/doc/link.rs#123-144 which is handled by js.
 htmlproofer public/ --allow-hash-href \
   --check-html \
-  --url-swap "(.*)#[0-9]+-[0-9]+:$1" \
+  --url-swap "(.+)#[0-9]+-[0-9]+:$1" \
   --url-ignore "#deref-methods"
 
 if [ ! $? -eq 0 ]

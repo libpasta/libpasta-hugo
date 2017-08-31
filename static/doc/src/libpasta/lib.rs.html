@@ -462,6 +462,61 @@
 <span id="417">417</span>
 <span id="418">418</span>
 <span id="419">419</span>
+<span id="420">420</span>
+<span id="421">421</span>
+<span id="422">422</span>
+<span id="423">423</span>
+<span id="424">424</span>
+<span id="425">425</span>
+<span id="426">426</span>
+<span id="427">427</span>
+<span id="428">428</span>
+<span id="429">429</span>
+<span id="430">430</span>
+<span id="431">431</span>
+<span id="432">432</span>
+<span id="433">433</span>
+<span id="434">434</span>
+<span id="435">435</span>
+<span id="436">436</span>
+<span id="437">437</span>
+<span id="438">438</span>
+<span id="439">439</span>
+<span id="440">440</span>
+<span id="441">441</span>
+<span id="442">442</span>
+<span id="443">443</span>
+<span id="444">444</span>
+<span id="445">445</span>
+<span id="446">446</span>
+<span id="447">447</span>
+<span id="448">448</span>
+<span id="449">449</span>
+<span id="450">450</span>
+<span id="451">451</span>
+<span id="452">452</span>
+<span id="453">453</span>
+<span id="454">454</span>
+<span id="455">455</span>
+<span id="456">456</span>
+<span id="457">457</span>
+<span id="458">458</span>
+<span id="459">459</span>
+<span id="460">460</span>
+<span id="461">461</span>
+<span id="462">462</span>
+<span id="463">463</span>
+<span id="464">464</span>
+<span id="465">465</span>
+<span id="466">466</span>
+<span id="467">467</span>
+<span id="468">468</span>
+<span id="469">469</span>
+<span id="470">470</span>
+<span id="471">471</span>
+<span id="472">472</span>
+<span id="473">473</span>
+<span id="474">474</span>
 </pre><pre class="rust ">
 <span class="comment">// Copyright (c) 2017, Sam Scott</span>
 
@@ -479,16 +534,16 @@
 
 <span class="doccomment">//! # Pasta - Password Storage</span>
 <span class="doccomment">//! _Making passwords painless_</span>
-<span class="doccomment">//! </span>
+<span class="doccomment">//!</span>
 <span class="doccomment">//! This is a library designed to make secure password storage easy.</span>
 <span class="doccomment">//!</span>
 <span class="doccomment">//! For a more comprehensive introduction, see: https://libpasta.github.io/</span>
 <span class="doccomment">//!</span>
-<span class="doccomment">//! </span>
+<span class="doccomment">//!</span>
 <span class="doccomment">//! ## Examples</span>
 <span class="doccomment">//!</span>
 <span class="doccomment">//! The basic functionality for computing password hashes is:</span>
-<span class="doccomment">//! </span>
+<span class="doccomment">//!</span>
 <span class="doccomment">//! ```</span>
 <span class="doccomment">//! extern crate libpasta;</span>
 <span class="doccomment">//! // We re-export the rpassword crate for CLI password input.</span>
@@ -515,8 +570,9 @@
 <span class="attribute">#<span class="op">!</span>[<span class="ident">deny</span>(<span class="ident">clippy_pedantic</span>)]</span>
 <span class="attribute">#<span class="op">!</span>[<span class="ident">allow</span>(
     <span class="ident">missing_docs_in_private_items</span>, 
-    <span class="ident">new_ret_no_self</span>, <span class="comment">// we use fn new() -&gt; Primitive for convenience</span>
-    <span class="ident">use_self</span>, <span class="comment">// currently broken in  clippy v0.0.153</span>
+    <span class="comment">// we use fn new() -&gt; Primitive for convenience</span>
+    <span class="ident">new_ret_no_self</span>, 
+    <span class="ident">use_debug</span>,
 )]</span>
 <span class="attribute">#<span class="op">!</span>[<span class="ident">deny</span>(
     <span class="ident">const_err</span>,
@@ -569,6 +625,7 @@
 <span class="kw">extern</span> <span class="kw">crate</span> <span class="ident">data_encoding</span>;
 <span class="attribute">#[<span class="ident">macro_use</span>]</span>
 <span class="kw">extern</span> <span class="kw">crate</span> <span class="ident">error_chain</span>;
+<span class="kw">extern</span> <span class="kw">crate</span> <span class="ident">itertools</span>;
 <span class="attribute">#[<span class="ident">macro_use</span>]</span>
 <span class="kw">extern</span> <span class="kw">crate</span> <span class="ident">lazy_static</span>;
 <span class="attribute">#[<span class="ident">macro_use</span>]</span>
@@ -604,7 +661,7 @@
 
 <span class="kw">use</span> <span class="ident">errors</span>::<span class="kw-2">*</span>;
 
-<span class="kw">use</span> <span class="ident">ring</span>::<span class="ident">rand</span>::{<span class="ident">SecureRandom</span>, <span class="ident">SystemRandom</span>};
+<span class="kw">use</span> <span class="ident">ring</span>::<span class="ident">rand</span>::<span class="ident">SecureRandom</span>;
 
 <span class="attribute">#[<span class="ident">macro_use</span>]</span>
 <span class="kw">mod</span> <span class="ident">bench</span>;
@@ -628,10 +685,15 @@
 
 <span class="doccomment">/// Generates a default hash for a given password.</span>
 <span class="doccomment">///</span>
+<span class="doccomment">/// Will automatically generate a random salt. In the extreme case that the</span>
+<span class="doccomment">/// default source of randomness is unavailable, this will fallback to a seed</span>
+<span class="doccomment">/// generated when the library is initialised. An error will be logged when this</span>
+<span class="doccomment">/// happens.</span>
+<span class="doccomment">///</span>
 <span class="doccomment">/// This is the simplest way to use libpasta, and uses sane defaults.</span>
 <span class="doccomment">/// ## Panics</span>
-<span class="doccomment">/// If there is any error while attempting to hash, will panic.</span>
-<span class="doccomment">/// For default usage this should not happen.</span>
+<span class="doccomment">/// A panic indicates a problem with the serialization mechanisms, and should</span>
+<span class="doccomment">/// be reported.</span>
 <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">hash_password</span>(<span class="ident">password</span>: <span class="ident">String</span>) <span class="op">-&gt;</span> <span class="ident">String</span> {
     <span class="ident">hash_password_safe</span>(<span class="ident">password</span>).<span class="ident">expect</span>(<span class="string">&quot;failed to hash password&quot;</span>)
 }
@@ -640,7 +702,7 @@
 <span class="doccomment">/// TODO: decide on which API is best to use.</span>
 <span class="attribute">#[<span class="ident">doc</span>(<span class="ident">hidden</span>)]</span>
 <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">hash_password_safe</span>(<span class="ident">password</span>: <span class="ident">String</span>) <span class="op">-&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="ident">String</span><span class="op">&gt;</span> {
-    <span class="kw">let</span> <span class="ident">pwd_hash</span> <span class="op">=</span> <span class="ident">config</span>::<span class="ident">DEFAULT_ALG</span>.<span class="ident">hash</span>(<span class="ident">password</span>.<span class="ident">into</span>())<span class="question-mark">?</span>;
+    <span class="kw">let</span> <span class="ident">pwd_hash</span> <span class="op">=</span> <span class="ident">config</span>::<span class="ident">DEFAULT_ALG</span>.<span class="ident">hash</span>(<span class="ident">password</span>.<span class="ident">into</span>());
     <span class="prelude-val">Ok</span>(<span class="ident">serde_mcf</span>::<span class="ident">to_string</span>(<span class="kw-2">&amp;</span><span class="ident">pwd_hash</span>)<span class="question-mark">?</span>)
 }
 
@@ -673,7 +735,7 @@
     <span class="kw">let</span> <span class="ident">pwd_hash</span>: <span class="ident">Output</span> <span class="op">=</span> <span class="ident">serde_mcf</span>::<span class="ident">from_str</span>(<span class="ident">hash</span>)<span class="question-mark">?</span>;
     <span class="kw">if</span> <span class="ident">pwd_hash</span>.<span class="ident">verify</span>(<span class="ident">password</span>.<span class="ident">clone</span>().<span class="ident">into</span>()) {
         <span class="kw">if</span> <span class="ident">pwd_hash</span>.<span class="ident">alg</span> <span class="op">!=</span> <span class="kw-2">*</span><span class="ident">config</span>::<span class="ident">DEFAULT_ALG</span> {
-            <span class="kw">let</span> <span class="ident">new_hash</span> <span class="op">=</span> <span class="ident">serde_mcf</span>::<span class="ident">to_string</span>(<span class="kw-2">&amp;</span><span class="ident">config</span>::<span class="ident">DEFAULT_ALG</span>.<span class="ident">hash</span>(<span class="ident">password</span>.<span class="ident">into</span>())<span class="question-mark">?</span>)<span class="question-mark">?</span>;
+            <span class="kw">let</span> <span class="ident">new_hash</span> <span class="op">=</span> <span class="ident">serde_mcf</span>::<span class="ident">to_string</span>(<span class="kw-2">&amp;</span><span class="ident">config</span>::<span class="ident">DEFAULT_ALG</span>.<span class="ident">hash</span>(<span class="ident">password</span>.<span class="ident">into</span>()))<span class="question-mark">?</span>;
             <span class="kw-2">*</span><span class="ident">hash</span> <span class="op">=</span> <span class="ident">new_hash</span>;
         }
         <span class="prelude-val">Ok</span>(<span class="bool-val">true</span>)
@@ -686,7 +748,7 @@
 <span class="doccomment">/// Migrate the input hash to the current recommended hash.</span>
 <span class="doccomment">///</span>
 <span class="doccomment">/// Note that this does *not* require the password. This is for batch updating</span>
-<span class="doccomment">/// of hashes, where the password is not available. This performs an onion </span>
+<span class="doccomment">/// of hashes, where the password is not available. This performs an onion</span>
 <span class="doccomment">/// approach, returning `new_hash(old_hash)`.</span>
 <span class="doccomment">///</span>
 <span class="doccomment">/// If the password is also available, the `verify_password_update_hash` should</span>
@@ -698,19 +760,17 @@
 <span class="doccomment">/// Same as `migrate_hash` but returns `Result` to allow error handling.</span>
 <span class="attribute">#[<span class="ident">doc</span>(<span class="ident">hidden</span>)]</span>
 <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">migrate_hash_safe</span>(<span class="ident">hash</span>: <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">String</span>) <span class="op">-&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span>()<span class="op">&gt;</span> {
-    <span class="kw">use</span> <span class="ident">hashing</span>::<span class="ident">Algorithm</span>;
     <span class="kw">let</span> <span class="ident">pwd_hash</span>: <span class="ident">Output</span> <span class="op">=</span> <span class="ident">serde_mcf</span>::<span class="ident">from_str</span>(<span class="ident">hash</span>)<span class="question-mark">?</span>;
 
-    <span class="kw">if</span> <span class="ident">pwd_hash</span>.<span class="ident">alg</span> <span class="op">==</span> <span class="kw-2">*</span><span class="ident">config</span>::<span class="ident">DEFAULT_ALG</span> {
+    <span class="kw">if</span> <span class="op">!</span><span class="ident">pwd_hash</span>.<span class="ident">alg</span>.<span class="ident">needs_migrating</span>() {
         <span class="comment">// no need to migrate</span>
         <span class="kw">return</span> <span class="prelude-val">Ok</span>(());
     }
-    <span class="comment">// This is wrong, needs to be `def` as `outer`.</span>
-    <span class="kw">let</span> <span class="ident">new_params</span> <span class="op">=</span> <span class="ident">Algorithm</span>::<span class="ident">Nested</span> { <span class="ident">outer</span>: <span class="ident">config</span>::<span class="ident">DEFAULT_PRIM</span>.<span class="ident">clone</span>(), <span class="ident">inner</span>: <span class="ident">Box</span>::<span class="ident">new</span>(<span class="ident">pwd_hash</span>.<span class="ident">alg</span>) };
 
+    <span class="kw">let</span> <span class="ident">new_params</span> <span class="op">=</span> <span class="ident">pwd_hash</span>.<span class="ident">alg</span>.<span class="ident">to_wrapped</span>(<span class="ident">config</span>::<span class="ident">DEFAULT_PRIM</span>.<span class="ident">clone</span>());
     <span class="kw">let</span> <span class="ident">new_salt</span> <span class="op">=</span> <span class="ident">pwd_hash</span>.<span class="ident">salt</span>;
 
-    <span class="kw">let</span> <span class="ident">new_hash</span> <span class="op">=</span> <span class="ident">config</span>::<span class="ident">DEFAULT_ALG</span>.<span class="ident">hash_with_salt</span>(<span class="kw-2">&amp;</span><span class="ident">pwd_hash</span>.<span class="ident">hash</span>, <span class="kw-2">&amp;</span><span class="ident">new_salt</span>);
+    <span class="kw">let</span> <span class="ident">new_hash</span> <span class="op">=</span> (<span class="kw-2">*</span><span class="ident">config</span>::<span class="ident">DEFAULT_PRIM</span>).<span class="ident">compute</span>(<span class="kw-2">&amp;</span><span class="ident">pwd_hash</span>.<span class="ident">hash</span>, <span class="kw-2">&amp;</span><span class="ident">new_salt</span>);
     <span class="kw">let</span> <span class="ident">new_hash</span> <span class="op">=</span> <span class="ident">Output</span> {
         <span class="ident">alg</span>: <span class="ident">new_params</span>,
         <span class="ident">hash</span>: <span class="ident">new_hash</span>,
@@ -721,16 +781,22 @@
     <span class="prelude-val">Ok</span>(())
 }
 
-<span class="kw">fn</span> <span class="ident">gen_salt</span>() <span class="op">-&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="ident">Vec</span><span class="op">&lt;</span><span class="ident">u8</span><span class="op">&gt;&gt;</span> {
+<span class="kw">fn</span> <span class="ident">gen_salt</span>(<span class="ident">rng</span>: <span class="kw-2">&amp;</span><span class="ident">SecureRandom</span>) <span class="op">-&gt;</span> <span class="ident">Vec</span><span class="op">&lt;</span><span class="ident">u8</span><span class="op">&gt;</span> {
     <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">salt</span> <span class="op">=</span> <span class="macro">vec</span><span class="macro">!</span>[<span class="number">0_u8</span>; <span class="number">16</span>];
-    <span class="kw">let</span> <span class="ident">rng</span> <span class="op">=</span> <span class="ident">SystemRandom</span>;
-    <span class="ident">rng</span>.<span class="ident">fill</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">salt</span>)<span class="question-mark">?</span>;
-    <span class="prelude-val">Ok</span>(<span class="ident">salt</span>)
+    <span class="kw">if</span> <span class="ident">rng</span>.<span class="ident">fill</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">salt</span>).<span class="ident">is_ok</span>() {
+        <span class="ident">salt</span>
+    } <span class="kw">else</span> {
+        <span class="macro">error</span><span class="macro">!</span>(<span class="string">&quot;failed to get fresh randomness, relying on backup seed to generate pseudoranom output&quot;</span>);
+        <span class="ident">config</span>::<span class="ident">backup_gen_salt</span>()
+    }
 }
 
 <span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">test</span>)]</span>
+<span class="kw">use</span> <span class="ident">ring</span>::<span class="ident">rand</span>::<span class="ident">SystemRandom</span>;
+
+<span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">test</span>)]</span>
 <span class="kw">fn</span> <span class="ident">get_salt</span>() <span class="op">-&gt;</span> <span class="ident">Vec</span><span class="op">&lt;</span><span class="ident">u8</span><span class="op">&gt;</span> {
-    <span class="ident">gen_salt</span>().<span class="ident">unwrap</span>()
+    <span class="ident">gen_salt</span>(<span class="kw-2">&amp;</span><span class="ident">SystemRandom</span>)
 }
 
 <span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">test</span>)]</span>
@@ -749,7 +815,7 @@
         <span class="comment">// can&#39;t use password again</span>
         <span class="kw">let</span> <span class="ident">password</span> <span class="op">=</span> <span class="string">&quot;&quot;</span>.<span class="ident">to_owned</span>();
         <span class="macro">assert</span><span class="macro">!</span>(<span class="ident">verify_password</span>(<span class="kw-2">&amp;</span><span class="ident">hash</span>, <span class="ident">password</span>));
-        <span class="macro">assert</span><span class="macro">!</span>(<span class="op">!</span><span class="ident">verify_password</span>(<span class="kw-2">&amp;</span><span class="ident">hash</span>,<span class="string">&quot;wrong password&quot;</span>.<span class="ident">to_owned</span>()));
+        <span class="macro">assert</span><span class="macro">!</span>(<span class="op">!</span><span class="ident">verify_password</span>(<span class="kw-2">&amp;</span><span class="ident">hash</span>, <span class="string">&quot;wrong password&quot;</span>.<span class="ident">to_owned</span>()));
 
         <span class="kw">let</span> <span class="ident">password</span> <span class="op">=</span> <span class="string">&quot;hunter2&quot;</span>.<span class="ident">to_owned</span>();
         <span class="kw">let</span> <span class="ident">hash</span> <span class="op">=</span> <span class="ident">hash_password</span>(<span class="ident">password</span>);
@@ -757,7 +823,7 @@
         <span class="comment">// can&#39;t use password again</span>
         <span class="kw">let</span> <span class="ident">password</span> <span class="op">=</span> <span class="string">&quot;hunter2&quot;</span>.<span class="ident">to_owned</span>();
         <span class="macro">assert</span><span class="macro">!</span>(<span class="ident">verify_password</span>(<span class="kw-2">&amp;</span><span class="ident">hash</span>, <span class="ident">password</span>));
-        <span class="macro">assert</span><span class="macro">!</span>(<span class="op">!</span><span class="ident">verify_password</span>(<span class="kw-2">&amp;</span><span class="ident">hash</span>,<span class="string">&quot;wrong password&quot;</span>.<span class="ident">to_owned</span>()));
+        <span class="macro">assert</span><span class="macro">!</span>(<span class="op">!</span><span class="ident">verify_password</span>(<span class="kw-2">&amp;</span><span class="ident">hash</span>, <span class="string">&quot;wrong password&quot;</span>.<span class="ident">to_owned</span>()));
     }
 
     <span class="attribute">#[<span class="ident">test</span>]</span>
@@ -767,7 +833,7 @@
         <span class="kw">let</span> <span class="ident">pwd_hash</span>: <span class="ident">Output</span> <span class="op">=</span> <span class="ident">serde_mcf</span>::<span class="ident">from_str</span>(<span class="ident">hash</span>).<span class="ident">unwrap</span>();
         <span class="macro">println</span><span class="macro">!</span>(<span class="string">&quot;{:?}&quot;</span>, <span class="ident">pwd_hash</span>);
 
-        <span class="kw">let</span> <span class="ident">expected_hash</span> <span class="op">=</span> <span class="ident">pwd_hash</span>.<span class="ident">alg</span>.<span class="ident">hash_with_salt</span>(<span class="ident">password</span>.<span class="ident">as_bytes</span>(), <span class="kw-2">&amp;</span><span class="ident">pwd_hash</span>.<span class="ident">salt</span>, );
+        <span class="kw">let</span> <span class="ident">expected_hash</span> <span class="op">=</span> <span class="ident">pwd_hash</span>.<span class="ident">alg</span>.<span class="ident">hash_with_salt</span>(<span class="ident">password</span>.<span class="ident">as_bytes</span>(), <span class="kw-2">&amp;</span><span class="ident">pwd_hash</span>.<span class="ident">salt</span>);
         <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">pwd_hash</span>.<span class="ident">hash</span>, <span class="kw-2">&amp;</span><span class="ident">expected_hash</span>[..]);
         <span class="macro">assert</span><span class="macro">!</span>(<span class="ident">verify_password</span>(<span class="kw-2">&amp;</span><span class="ident">hash</span>, <span class="ident">password</span>));
     }
@@ -783,8 +849,11 @@
     <span class="kw">fn</span> <span class="ident">nested_hash</span>() {
         <span class="kw">let</span> <span class="ident">password</span> <span class="op">=</span> <span class="string">&quot;hunter2&quot;</span>.<span class="ident">to_owned</span>();
 
-        <span class="kw">let</span> <span class="ident">params</span> <span class="op">=</span> <span class="ident">Algorithm</span>::<span class="ident">Nested</span> { <span class="ident">inner</span>: <span class="ident">Box</span>::<span class="ident">new</span>(<span class="ident">Algorithm</span>::<span class="ident">default</span>()), <span class="ident">outer</span>: <span class="ident">DEFAULT_PRIM</span>.<span class="ident">clone</span>() };
-        <span class="kw">let</span> <span class="ident">hash</span> <span class="op">=</span> <span class="ident">params</span>.<span class="ident">hash</span>(<span class="ident">password</span>.<span class="ident">into</span>()).<span class="ident">unwrap</span>();
+        <span class="kw">let</span> <span class="ident">params</span> <span class="op">=</span> <span class="ident">Algorithm</span>::<span class="ident">Nested</span> {
+            <span class="ident">inner</span>: <span class="ident">Box</span>::<span class="ident">new</span>(<span class="ident">Algorithm</span>::<span class="ident">default</span>()),
+            <span class="ident">outer</span>: <span class="ident">DEFAULT_PRIM</span>.<span class="ident">clone</span>(),
+        };
+        <span class="kw">let</span> <span class="ident">hash</span> <span class="op">=</span> <span class="ident">params</span>.<span class="ident">hash</span>(<span class="ident">password</span>.<span class="ident">into</span>());
 
         <span class="kw">let</span> <span class="ident">password</span> <span class="op">=</span> <span class="string">&quot;hunter2&quot;</span>.<span class="ident">to_owned</span>();
         <span class="macro">println</span><span class="macro">!</span>(<span class="string">&quot;{:?}&quot;</span>, <span class="ident">hash</span>);
@@ -802,8 +871,11 @@
     <span class="kw">fn</span> <span class="ident">verify_update</span>() {
         <span class="kw">let</span> <span class="ident">password</span> <span class="op">=</span> <span class="string">&quot;hunter2&quot;</span>.<span class="ident">to_owned</span>();
 
-        <span class="kw">let</span> <span class="ident">params</span> <span class="op">=</span> <span class="ident">Algorithm</span>::<span class="ident">Nested</span> { <span class="ident">inner</span>: <span class="ident">Box</span>::<span class="ident">new</span>(<span class="ident">Algorithm</span>::<span class="ident">default</span>()), <span class="ident">outer</span>: <span class="ident">DEFAULT_PRIM</span>.<span class="ident">clone</span>() };
-        <span class="kw">let</span> <span class="ident">hash</span> <span class="op">=</span> <span class="ident">params</span>.<span class="ident">hash</span>(<span class="ident">password</span>.<span class="ident">into</span>()).<span class="ident">unwrap</span>();
+        <span class="kw">let</span> <span class="ident">params</span> <span class="op">=</span> <span class="ident">Algorithm</span>::<span class="ident">Nested</span> {
+            <span class="ident">inner</span>: <span class="ident">Box</span>::<span class="ident">new</span>(<span class="ident">Algorithm</span>::<span class="ident">default</span>()),
+            <span class="ident">outer</span>: <span class="ident">DEFAULT_PRIM</span>.<span class="ident">clone</span>(),
+        };
+        <span class="kw">let</span> <span class="ident">hash</span> <span class="op">=</span> <span class="ident">params</span>.<span class="ident">hash</span>(<span class="ident">password</span>.<span class="ident">into</span>());
 
         <span class="kw">let</span> <span class="ident">password</span> <span class="op">=</span> <span class="string">&quot;hunter2&quot;</span>.<span class="ident">to_owned</span>();
         <span class="macro">assert</span><span class="macro">!</span>(<span class="ident">hash</span>.<span class="ident">verify</span>(<span class="ident">password</span>.<span class="ident">into</span>()));
@@ -818,7 +890,7 @@
         <span class="kw">let</span> <span class="ident">password</span> <span class="op">=</span> <span class="string">&quot;hunter2&quot;</span>.<span class="ident">to_owned</span>();
 
         <span class="kw">let</span> <span class="ident">params</span> <span class="op">=</span> <span class="ident">Algorithm</span>::<span class="ident">Single</span>(<span class="ident">Bcrypt</span>::<span class="ident">default</span>());
-        <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">hash</span> <span class="op">=</span> <span class="ident">serde_mcf</span>::<span class="ident">to_string</span>(<span class="kw-2">&amp;</span><span class="ident">params</span>.<span class="ident">hash</span>(<span class="ident">password</span>.<span class="ident">into</span>()).<span class="ident">unwrap</span>()).<span class="ident">unwrap</span>();
+        <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">hash</span> <span class="op">=</span> <span class="ident">serde_mcf</span>::<span class="ident">to_string</span>(<span class="kw-2">&amp;</span><span class="ident">params</span>.<span class="ident">hash</span>(<span class="ident">password</span>.<span class="ident">into</span>())).<span class="ident">unwrap</span>();
         <span class="macro">println</span><span class="macro">!</span>(<span class="string">&quot;Original: {:?}&quot;</span>, <span class="ident">hash</span>);
         <span class="ident">migrate_hash</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">hash</span>);
         <span class="macro">println</span><span class="macro">!</span>(<span class="string">&quot;Migrated: {:?}&quot;</span>, <span class="ident">hash</span>);
@@ -839,31 +911,33 @@
 
     <span class="attribute">#[<span class="ident">test</span>]</span>
     <span class="kw">fn</span> <span class="ident">handles_broken_hashes</span>() {
-        <span class="comment">// base hash: $$scrypt-mcf$log_n=14,r=8,p=1$Yw/fI4D7b2PNqpUCg5UzKA$kp6humqf/GUV+6HQ/jND3gd8Zoz4VyBgGqk4DHt+k5c</span>
+        <span class="comment">// base hash: $$scrypt$ln=14,r=8,p=1$Yw/fI4D7b2PNqpUCg5UzKA$kp6humqf/GUV+6HQ/jND3gd8Zoz4VyBgGqk4DHt+k5c</span>
         <span class="kw">let</span> <span class="ident">password</span> <span class="op">=</span> <span class="string">&quot;hunter2&quot;</span>.<span class="ident">to_owned</span>();
 
         <span class="comment">// Missing param</span>
-        <span class="kw">let</span> <span class="ident">hash</span> <span class="op">=</span> <span class="string">&quot;$$scrypt-mcf$log_n=14p=1$Yw/fI4D7b2PNqpUCg5UzKA$kp6humqf/GUV+6HQ/jND3gd8Zoz4VyBgGqk4DHt+k5c&quot;</span>;
+        <span class="kw">let</span> <span class="ident">hash</span> <span class="op">=</span> <span class="string">&quot;$$scrypt$ln=14p=1$Yw/fI4D7b2PNqpUCg5UzKA$kp6humqf/GUV+6HQ/jND3gd8Zoz4VyBgGqk4DHt+k5c&quot;</span>;
         <span class="macro">assert</span><span class="macro">!</span>(<span class="op">!</span><span class="ident">verify_password</span>(<span class="kw-2">&amp;</span><span class="ident">hash</span>, <span class="ident">password</span>.<span class="ident">clone</span>()));
 
         <span class="comment">// Incorrect hash-id</span>
-        <span class="kw">let</span> <span class="ident">hash</span> <span class="op">=</span> <span class="string">&quot;$$nocrypt-mcf$log_n=14p=1$Yw/fI4D7b2PNqpUCg5UzKA$kp6humqf/GUV+6HQ/jND3gd8Zoz4VyBgGqk4DHt+k5c&quot;</span>;
+        <span class="kw">let</span> <span class="ident">hash</span> <span class="op">=</span> <span class="string">&quot;$$nocrypt$ln=14p=1$Yw/fI4D7b2PNqpUCg5UzKA$kp6humqf/GUV+6HQ/jND3gd8Zoz4VyBgGqk4DHt+k5c&quot;</span>;
         <span class="macro">assert</span><span class="macro">!</span>(<span class="op">!</span><span class="ident">verify_password</span>(<span class="kw-2">&amp;</span><span class="ident">hash</span>, <span class="ident">password</span>.<span class="ident">clone</span>()));
 
         <span class="comment">// Missing salt</span>
-        <span class="kw">let</span> <span class="ident">hash</span> <span class="op">=</span> <span class="string">&quot;$$scrypt-mcf$log_n=14p=1$$kp6humqf/GUV+6HQ/jND3gd8Zoz4VyBgGqk4DHt+k5c&quot;</span>;
+        <span class="kw">let</span> <span class="ident">hash</span> <span class="op">=</span> <span class="string">&quot;$$scrypt$ln=14p=1$$kp6humqf/GUV+6HQ/jND3gd8Zoz4VyBgGqk4DHt+k5c&quot;</span>;
         <span class="macro">assert</span><span class="macro">!</span>(<span class="op">!</span><span class="ident">verify_password</span>(<span class="kw-2">&amp;</span><span class="ident">hash</span>, <span class="ident">password</span>.<span class="ident">clone</span>()));
 
         <span class="comment">// Incorrect number of fields</span>
-        <span class="kw">let</span> <span class="ident">hash</span> <span class="op">=</span> <span class="string">&quot;$$scrypt-mcf$log_n=14p=1$kp6humqf/GUV+6HQ/jND3gd8Zoz4VyBgGqk4DHt+k5c&quot;</span>;
+        <span class="kw">let</span> <span class="ident">hash</span> <span class="op">=</span> <span class="string">&quot;$$scrypt$ln=14p=1$kp6humqf/GUV+6HQ/jND3gd8Zoz4VyBgGqk4DHt+k5c&quot;</span>;
         <span class="macro">assert</span><span class="macro">!</span>(<span class="op">!</span><span class="ident">verify_password</span>(<span class="kw-2">&amp;</span><span class="ident">hash</span>, <span class="ident">password</span>.<span class="ident">clone</span>()));
 
         <span class="comment">// Truncated hash</span>
-        <span class="kw">let</span> <span class="ident">hash</span> <span class="op">=</span> <span class="string">&quot;$$scrypt-mcf$log_n=14,r=8,p=1$Yw/fI4D7b2PNqpUCg5UzKA$kp6humqf/GUV+6HQ/jND3gd8Zoz4VyBgGqk4DHt&quot;</span>;
+        <span class="kw">let</span> <span class="ident">hash</span> <span class="op">=</span> <span class="string">&quot;$$scrypt$ln=14,r=8,\
+                    p=1$Yw/fI4D7b2PNqpUCg5UzKA$kp6humqf/GUV+6HQ/jND3gd8Zoz4VyBgGqk4DHt&quot;</span>;
         <span class="macro">assert</span><span class="macro">!</span>(<span class="op">!</span><span class="ident">verify_password</span>(<span class="kw-2">&amp;</span><span class="ident">hash</span>, <span class="ident">password</span>.<span class="ident">clone</span>()));
 
         <span class="comment">// Extended hash</span>
-        <span class="kw">let</span> <span class="ident">hash</span> <span class="op">=</span> <span class="string">&quot;$$scrypt-mcf$log_n=14,r=8,p=1$Yw/fI4D7b2PNqpUCg5UzKA$kp6humqf/GUV+6HQ/jND3gd8Zoz4VyBgGqk4DHt+k5cAAAA&quot;</span>;
+        <span class="kw">let</span> <span class="ident">hash</span> <span class="op">=</span> <span class="string">&quot;$$scrypt$ln=14,r=8,\
+                    p=1$Yw/fI4D7b2PNqpUCg5UzKA$kp6humqf/GUV+6HQ/jND3gd8Zoz4VyBgGqk4DHt+k5cAAAA&quot;</span>;
         <span class="macro">assert</span><span class="macro">!</span>(<span class="op">!</span><span class="ident">verify_password</span>(<span class="kw-2">&amp;</span><span class="ident">hash</span>, <span class="ident">password</span>.<span class="ident">clone</span>()));
     }
 
@@ -878,8 +952,44 @@
         <span class="kw">let</span> <span class="ident">password</span> <span class="op">=</span> <span class="string">&quot;hunter2&quot;</span>.<span class="ident">to_owned</span>();
 
         <span class="kw">let</span> <span class="ident">alg</span> <span class="op">=</span> <span class="ident">Algorithm</span>::<span class="ident">Single</span>(<span class="ident">Bcrypt</span>::<span class="ident">default</span>()).<span class="ident">into_wrapped</span>(<span class="ident">Hmac</span>::<span class="ident">default</span>().<span class="ident">into</span>());
-        <span class="kw">let</span> <span class="ident">hash</span> <span class="op">=</span> <span class="ident">serde_mcf</span>::<span class="ident">to_string</span>(<span class="kw-2">&amp;</span><span class="ident">alg</span>.<span class="ident">hash</span>(<span class="ident">password</span>.<span class="ident">clone</span>().<span class="ident">into</span>()).<span class="ident">unwrap</span>()).<span class="ident">unwrap</span>();
+        <span class="kw">let</span> <span class="ident">hash</span> <span class="op">=</span> <span class="ident">serde_mcf</span>::<span class="ident">to_string</span>(<span class="kw-2">&amp;</span><span class="ident">alg</span>.<span class="ident">hash</span>(<span class="ident">password</span>.<span class="ident">clone</span>().<span class="ident">into</span>())).<span class="ident">unwrap</span>();
         <span class="macro">assert</span><span class="macro">!</span>(<span class="ident">verify_password</span>(<span class="kw-2">&amp;</span><span class="ident">hash</span>, <span class="ident">password</span>));
+    }
+
+    <span class="kw">use</span> <span class="ident">std</span>::<span class="ident">result</span>;
+    <span class="kw">use</span> <span class="ident">std</span>::<span class="ident">marker</span>::{<span class="ident">Send</span>, <span class="ident">Sync</span>};
+
+    <span class="kw">struct</span> <span class="ident">NoRandomness</span>;
+    <span class="kw">static</span> <span class="ident">NO_RAND_REF</span>: <span class="kw-2">&amp;</span><span class="lifetime">&#39;static</span> (<span class="ident">SecureRandom</span> <span class="op">+</span> <span class="ident">Send</span> <span class="op">+</span> <span class="ident">Sync</span>) <span class="op">=</span> <span class="kw-2">&amp;</span><span class="ident">NoRandomness</span>;
+    <span class="kw">impl</span> <span class="ident">SecureRandom</span> <span class="kw">for</span> <span class="ident">NoRandomness</span> {
+        <span class="kw">fn</span> <span class="ident">fill</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">_dest</span>: <span class="kw-2">&amp;</span><span class="kw-2">mut</span> [<span class="ident">u8</span>]) <span class="op">-&gt;</span> <span class="ident">result</span>::<span class="prelude-ty">Result</span><span class="op">&lt;</span>(), <span class="ident">ring</span>::<span class="ident">error</span>::<span class="ident">Unspecified</span><span class="op">&gt;</span> {
+            <span class="prelude-val">Err</span>(<span class="ident">ring</span>::<span class="ident">error</span>::<span class="ident">Unspecified</span>)
+        }
+    }
+
+    <span class="attribute">#[<span class="ident">test</span>]</span>
+    <span class="kw">fn</span> <span class="ident">no_randomness_ok</span>() {
+        <span class="kw">use</span> <span class="ident">primitives</span>::<span class="ident">Sod</span>;
+        <span class="kw">use</span> <span class="ident">std</span>::<span class="ident">mem</span>;
+
+        <span class="comment">// Using a broken PRNG still results in distinct salts</span>
+        <span class="kw">let</span> <span class="ident">salt1</span> <span class="op">=</span> ::<span class="ident">gen_salt</span>(<span class="kw-2">&amp;</span><span class="ident">NoRandomness</span>);
+        <span class="kw">let</span> <span class="ident">salt2</span> <span class="op">=</span> ::<span class="ident">gen_salt</span>(<span class="kw-2">&amp;</span><span class="ident">NoRandomness</span>);
+        <span class="macro">assert</span><span class="macro">!</span>(<span class="ident">salt1</span> <span class="op">!=</span> <span class="ident">salt2</span>);
+
+
+        <span class="attribute">#[<span class="ident">allow</span>(<span class="ident">unsafe_code</span>)]</span>
+        <span class="kw">unsafe</span> {
+            <span class="comment">// We break the PRNG by replacing it with one which always fails!</span>
+            <span class="kw">let</span> <span class="ident">rng</span> <span class="op">=</span> <span class="ident">mem</span>::<span class="ident">transmute</span>::<span class="op">&lt;</span><span class="kw-2">*</span><span class="kw">const</span> <span class="ident">Sod</span><span class="op">&lt;</span><span class="ident">SecureRandom</span> <span class="op">+</span> <span class="ident">Send</span> <span class="op">+</span> <span class="ident">Sync</span><span class="op">&gt;</span>, <span class="kw-2">*</span><span class="kw-2">mut</span> <span class="ident">Sod</span><span class="op">&lt;</span><span class="ident">SecureRandom</span> <span class="op">+</span> <span class="ident">Send</span> <span class="op">+</span> <span class="ident">Sync</span><span class="op">&gt;&gt;</span>(<span class="kw-2">&amp;</span><span class="kw-2">*</span><span class="ident">config</span>::<span class="ident">RANDOMNESS_SOURCE</span>);
+            <span class="kw-2">*</span><span class="ident">rng</span> <span class="op">=</span> <span class="ident">Sod</span>::<span class="ident">Static</span>(<span class="ident">NO_RAND_REF</span>);
+        }
+
+
+        <span class="comment">// Yet two passwords differ</span>
+        <span class="kw">let</span> <span class="ident">hash1</span> <span class="op">=</span> <span class="ident">hash_password</span>(<span class="string">&quot;hunter2&quot;</span>.<span class="ident">to_owned</span>());
+        <span class="kw">let</span> <span class="ident">hash2</span> <span class="op">=</span> <span class="ident">hash_password</span>(<span class="string">&quot;hunter2&quot;</span>.<span class="ident">to_owned</span>());
+        <span class="macro">assert</span><span class="macro">!</span>(<span class="ident">hash1</span> <span class="op">!=</span> <span class="ident">hash2</span>);
     }
 }
 </pre>

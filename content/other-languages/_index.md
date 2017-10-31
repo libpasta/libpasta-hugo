@@ -1,7 +1,8 @@
 +++
-icon = "<b>3. </b>"
+pre = "<b>3. </b>"
 title = "Other Languages"
 weight = 3
+chapter = true
 +++
 
 ### Chapter 3

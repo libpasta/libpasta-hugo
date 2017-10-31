@@ -1,7 +1,8 @@
 +++
-icon = "<b>4. </b>"
+pre = "<b>4. </b>"
 title = "Technical Details"
 weight = 4
+chapter = true
 
 +++
 

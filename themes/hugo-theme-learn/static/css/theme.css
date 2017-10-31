@@ -59,6 +59,7 @@ a:hover {
 }
 pre {
     position: relative;
+    color: #ffffff;
 }
 .bg {
     background: #fff;
@@ -97,10 +98,10 @@ textarea:focus, input[type="email"]:focus, input[type="number"]:focus, input[typ
     box-shadow: inset 0 1px 3px rgba(0,0,0,.06),0 0 5px rgba(0,169,218,.7)
 }
 #header-wrapper {
-    background: #890902;
+    background: #8451a1;
     color: #fff;
     text-align: center;
-    border-bottom: 4px solid #af4842;
+    border-bottom: 4px solid #9c6fb6;
     padding: 1rem;
 }
 #header a {
@@ -116,8 +117,8 @@ textarea:focus, input[type="email"]:focus, input[type="number"]:focus, input[typ
 .searchbox {
     margin-top: 1rem;
     position: relative;
-    border: 1px solid #af4842;
-    background: #a3140d;
+    border: 1px solid #915eae;
+    background: #764890;
     border-radius: 4px;
 }
 .searchbox label {
@@ -178,10 +179,6 @@ textarea:focus, input[type="email"]:focus, input[type="number"]:focus, input[typ
     font-size: 15px;
 }
 #sidebar a {
-    color: #ccc;
-}
-#sidebar h4 {
-    font-weight: 220;
     color: #ccc;
 }
 #sidebar a:hover {
@@ -533,6 +530,94 @@ div.notices.tip p {
 div.notices.tip p:first-child:after {
     content: 'Tip';
 }
+
+/* attachments shortcode */
+
+section.attachments {
+    margin: 2rem 0;
+    position: relative;
+}
+
+section.attachments label {
+    font-weight: 400;
+    padding-left: 0.5em;
+    padding-top: 0.2em;
+    padding-bottom: 0.2em;
+    margin: 0;
+}
+
+section.attachments .attachments-files {
+    padding: 15px;
+    display: block;
+    font-size: 1rem;
+    margin-top: 0rem;
+    margin-bottom: 0rem;
+    color: #666;
+}
+
+section.attachments.orange label {
+    color: #fff;
+    background: #F0B37E;
+}
+
+section.attachments.orange .attachments-files {
+    background: #FFF2DB;
+}
+
+section.attachments.green label {
+    color: #fff;
+    background: rgba(92, 184, 92, 0.8);
+}
+
+section.attachments.green .attachments-files {
+    background: #E6F9E6;
+}
+
+section.attachments.blue label {
+    color: #fff;
+    background: #6AB0DE;
+}
+
+section.attachments.blue .attachments-files {
+    background: #E7F2FA;
+}
+
+section.attachments.grey label {
+    color: #fff;
+    background: #505d65;
+}
+
+section.attachments.grey .attachments-files {
+    background: #f4f4f4;
+}
+
+/* Children shortcode */
+
+/* Children shortcode */
+.children p {
+    font-size: small;
+    margin-top: 0px;
+    padding-top: 0px;
+    margin-bottom:  0px;
+    padding-bottom: 0px;
+}
+.children-li p {
+    font-size: small;
+    font-style: italic;
+
+}
+.children-h2 p, .children-h3 p {
+    font-size: small;
+    margin-top: 0px;
+    padding-top: 0px;
+    margin-bottom:  0px;
+    padding-bottom: 0px;
+}
+.children h3,.children h2 {
+    margin-bottom: 0px;
+    margin-top: 5px;
+}
+
 code, kbd, pre, samp {
     font-family: "Consolas", menlo, monospace;
     font-size: 92%;
@@ -569,7 +654,6 @@ pre code {
     padding: 0;
     margin: 0;
     font-size: 15px;
-    line-height: 1.25;
 }
 hr {
     border-bottom: 4px solid #F0F2F4;
@@ -623,7 +707,7 @@ td {
     border: 1px solid #eaeaea;
 }
 .button {
-    background: #af4842;
+    background: #9c6fb6;
     color: #fff;
     box-shadow: 0 3px 0 #00a5d4;
 }
@@ -684,7 +768,7 @@ td {
 }
 .bullet-icon {
     float: left;
-    background: #af4842;
+    background: #9c6fb6;
     padding: 0.875rem;
     width: 3.5rem;
     height: 3.5rem;
@@ -694,7 +778,7 @@ td {
     text-align: center;
 }
 .bullet-icon-1 {
-    background: #af4842;
+    background: #9c6fb6;
 }
 .bullet-icon-2 {
     background: #00f3d8;
@@ -816,6 +900,9 @@ td {
     padding: 1rem 0 1rem;
     overflow: auto;
     position: relative;
+}
+.hljs::selection, .hljs span::selection {
+    background: #b7b7b7;
 }
 .lightbox-active #body {
     overflow: visible;
@@ -1004,6 +1091,18 @@ pre .copy-to-clipboard:hover {
 #sidebar ul.topics > li > a .read-icon {
     margin-top: 9px;
 }
+
+#sidebar ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+#sidebar #shortcuts li {
+    padding: 2px 0;
+    list-style: none;
+}
+
 #sidebar ul li .read-icon {
     display: none;
     float: right;
@@ -1015,6 +1114,13 @@ pre .copy-to-clipboard:hover {
 #sidebar ul li.visited > a .read-icon {
     color: #00bdf3;
     display: inline;
+}
+
+#sidebar #shortcuts h3 {
+    font-family: "Novacento Sans Wide", "Helvetica", "Tahoma", "Geneva", "Arial", sans-serif;
+    color: white ;
+    margin-top:1rem;
+    padding-left: 1rem;
 }
 
 #searchResults {

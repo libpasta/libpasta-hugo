@@ -10,7 +10,7 @@ For convenience, we have packaged these in a `.jar` file, which can be compiled
 from scratch using the `make install_java` command.
 
 Hence, we need the following files: `libpasta.so`, `libpasta_jni.so`, and 
-`libpasta.jar. Then, the following is sufficient to use the pasta functions:
+`libpasta.jar`. Then, the following is sufficient to use the pasta functions:
 
 ```java
 public class test {

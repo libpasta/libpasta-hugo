@@ -10,16 +10,6 @@ the algorithms available for use. For any missing formats/algorithms, please
 [open an issue](https://github.com/libpasta/libpasta/issues) and/or submit a
 pull request.
 
-## Formats
-
-The following hash-formats are supported automatically by `libpasta`:
-
-| Name        | Format           | Description  |
-| ----------- |-------------     | ------------ |
-| bcrypt legacy format               |  `$2[abxy]$<cost>$<salthash>`  | `salthash` is a non-standard base64 encoding |
-| [PHC format](../phc-string-format) | `$<id>$<params map>$<salt>$<hash>`      |   Also referred to as modular crypt format |
-| `libpasta` specific                | `($!<PHC hash>)*$<PHC hash>`      |  nested MCF hash |
-
 ## Algorithms
 
 Currently, `libpasta` has support for: 
@@ -30,4 +20,13 @@ Currently, `libpasta` has support for:
  - [PBKDF2](https://en.wikipedia.org/wiki/PBKDF2)
  - [scrypt](https://www.tarsnap.com/scrypt.html)
 
+## Formats
+
+The following hash-formats are supported automatically by `libpasta`:
+
+| Name        | Format           | Description  |
+| ----------- |-------------     | ------------ |
+| bcrypt legacy format               |  `$2[abxy]$<cost>$<salthash>`  | `salthash` is a non-standard base64 encoding |
+| [PHC format](../phc-string-format) | `$<id>$<params map>$<salt>$<hash>`      |   Also referred to as modular crypt format |
+| `libpasta` specific                | `($!<PHC hash>)*$<PHC hash>`      |  nested MCF hash |
 

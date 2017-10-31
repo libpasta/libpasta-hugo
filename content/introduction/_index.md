@@ -1,8 +1,8 @@
 +++
-icon = "<b>1. </b>"
+pre = "<b>1. </b>"
 title = "Introduction"
-weight = 0
-
+weight = 1
+chapter = true
 +++
 
 ### Chapter 1

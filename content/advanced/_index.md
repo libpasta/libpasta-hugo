@@ -1,8 +1,8 @@
 +++
-icon = "<b>2. </b>"
+pre = "<b>2. </b>"
 title = "Advanced Usage"
 weight = 2
-
+chapter = true
 +++
 
 ### Chapter 2

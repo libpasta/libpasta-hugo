@@ -3,12 +3,27 @@ languageCode = "en-gb"
 title = "libpasta"
 theme = "hugo-theme-learn"
 PygmentsCodeFences = true
-PygmentsStyle = "native"
-PygmentsUseClasses = true
 
 # hugo-theme-learn config
 [params]
   # Description of the site, will be used in meta information
   description = "libpasta - making passwords painless"
-  # Automatically generates prev and next arrows
-  autoNav = true
+  # Disable search function. It will hide search bar
+  disableSearch = false
+  # Change default color scheme with a variant one. Can be "red", "blue", "green".
+  themeVariant = "libpasta"
+
+[outputs]
+home = [ "HTML", "RSS", "JSON"]
+
+[[menu.shortcuts]]
+name = "<i class='fa fa-github'></i> Github repo"
+identifier = "gh"
+url = "https://github.com/libpasta/libpasta"
+weight = 10
+
+[[menu.shortcuts]]
+name = "<i class='fa fa-book'></i> Documentation"
+identifier = "rustdoc"
+url = "https://libpasta.github.io/doc/libpasta/"
+weight = 20

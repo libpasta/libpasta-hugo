@@ -1,0 +1,15 @@
+{{ $default := .Get "default" }}
+{{ $titles := .Get "titles" }}
+{{ $id := .Get "id" }}
+{{ $titlesplit := split $titles "," }}
+<div class="code-tab {{ $id }}"> 
+<div class="tab">
+{{ range $idx, $value := $titlesplit }}
+{{ $title := $value }}
+{{ $active := eq $title $default}}
+{{ if ne $title "" }}
+<button class="tablinks {{ if $active }}active{{end}}" onclick="changeTab(event, '{{ $id }}', '{{ $title }}')">{{ $title }}</button>
+{{ end }}
+{{ end }}
+</div>
+<div class="tab-pane">{{ .Inner }} </div></div>

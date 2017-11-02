@@ -16,18 +16,27 @@ Or will be found on [docs.rs](https://docs.rs/) once v0.1 is published.
 
 A common scenario is that a particular user has password, which a service will check on each login to authenticate the user.
 
-{{< highlight rust "hl_lines=8">}}
-extern crate libpasta;
+{{% tabs id="hash" titles="Java,Python,Rust" default="Rust" %}}
 
-// We re-export the rpassword crate for CLI password input.
-use libpasta::rpassword::*;
-
-fn main() {
-    let password = prompt_password_stdout("Please enter your password:").unwrap();
-    let password_hash = libpasta::hash_password(password);
-    println!("The hashed password is: '{}'", password_hash);
-}
+{{% tab "Java" %}}
+{{< highlight java "hl_lines=4">}}
+{{< code_snippet "hash.java" >}}
 {{< /highlight >}}
+{{% /tab %}}
+
+{{% tab "Python" %}}
+{{< highlight python "hl_lines=5`">}}
+{{< code_snippet "hash.py" >}}
+{{< /highlight >}}
+{{% /tab %}}
+
+{{% tab "Rust" %}}
+{{< highlight rust "hl_lines=8">}}
+{{< code_snippet "hash.rs" >}}
+{{< /highlight >}}
+{{% /tab %}}
+
+{{% /tabs %}}
 
 The above code randomly generates a salt, and outputs the hash in the following format:
 `$$scrypt-mcf$log_n=14,r=8,p=1$pfJFg/hVSthuA5l...`.
@@ -41,27 +50,28 @@ outputs a variable-length string.
 
 Now that you have the hashed output, verifying that an inputted password is correct can be done as follows:
 
+{{% tabs id="verify" titles="Java,Python,Rust" default="Rust" %}}
 
+{{% tab "Rust" %}}
 {{< highlight rust "hl_lines=11">}}
-extern crate libpasta;
-use libpasta::rpassword::*;
-
-struct User {
-    // ...
-    password_hash: String,
-}
-
-fn auth_user(user: &User) {
-    let password = prompt_password_stdout("Enter password:").unwrap();
-    if libpasta::verify_password(&user.password_hash, password) {
-        println!("The password is correct!");
-        // ~> Handle correct password
-    } else {
-        println!("Incorrect password.");
-        // ~> Handle incorrect password
-    }
-}
+{{< code_snippet "verify.rs" >}}
 {{< /highlight >}}
+{{% /tab %}}
+
+{{% tab "Python" %}}
+{{< highlight python "hl_lines=8`">}}
+{{< code_snippet "verify.py" >}}
+{{< /highlight >}}
+{{% /tab %}}
+
+
+{{% tab "Java" %}}
+{{< highlight java "hl_lines=6">}}
+{{< code_snippet "verify.java" >}}
+{{< /highlight >}}
+{{% /tab %}}
+{{% /tabs %}}
+
 
 #### Password migration
 
@@ -82,6 +92,10 @@ with the new algorithm.
 The following code first wraps an existing hash, and then a move to just using
 the new algorithm:
 
+<div>
+{{% tabs id="migrate" titles="Rust" default="Rust" %}}
+
+{{% tab "Rust" %}}
 {{< highlight rust "hl_lines=12 19">}}
 extern crate libpasta;
 use libpasta::rpassword::*;
@@ -108,6 +122,15 @@ fn auth_user(user: &mut User) {
     }
 }
 {{< /highlight >}}
+{{% /tab %}}
+
+{{% tab "Python" %}}
+{{% /tab %}}
+
+{{% /tabs %}}
+</div>
+
+
 
 In the first step, we do not need the user's password (and can therefore
 apply this to all user passwords when desired). However, the password hash is now

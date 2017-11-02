@@ -1,0 +1,6 @@
+{{ $inner := .Inner }}
+{{ $title := .Get 0}}
+{{ with .Parent }}
+{{ $default := .Get "default" }}
+<div class="tabcontent {{ $title }}" style="display: {{ if eq $title $default }}block{{else}}none{{end}}" >{{ $inner }}</div>
+{{ end }}

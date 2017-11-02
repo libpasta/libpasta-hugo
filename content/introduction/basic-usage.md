@@ -16,6 +16,7 @@ Or will be found on [docs.rs](https://docs.rs/) once v0.1 is published.
 
 A common scenario is that a particular user has password, which a service will check on each login to authenticate the user.
 
+<div>
 {{% tabs id="hash" titles="Java,Python,Rust" default="Rust" %}}
 
 {{% tab "Java" %}}
@@ -37,6 +38,7 @@ A common scenario is that a particular user has password, which a service will c
 {{% /tab %}}
 
 {{% /tabs %}}
+</div>
 
 The above code randomly generates a salt, and outputs the hash in the following format:
 `$$scrypt-mcf$log_n=14,r=8,p=1$pfJFg/hVSthuA5l...`.
@@ -50,6 +52,7 @@ outputs a variable-length string.
 
 Now that you have the hashed output, verifying that an inputted password is correct can be done as follows:
 
+<div>
 {{% tabs id="verify" titles="Java,Python,Rust" default="Rust" %}}
 
 {{% tab "Rust" %}}
@@ -71,6 +74,7 @@ Now that you have the hashed output, verifying that an inputted password is corr
 {{< /highlight >}}
 {{% /tab %}}
 {{% /tabs %}}
+</div>
 
 
 #### Password migration
@@ -97,30 +101,7 @@ the new algorithm:
 
 {{% tab "Rust" %}}
 {{< highlight rust "hl_lines=12 19">}}
-extern crate libpasta;
-use libpasta::rpassword::*;
-
-struct User {
-    // ...
-    password_hash: String,
-}
-
-fn migrate_users(users: Vec<&mut User>) {
-    // Step 1: Wrap old hash
-    for user in users {
-        libpasta::migrate_hash(&mut user.password_hash);
-    }
-}
-
-fn auth_user(user: &mut User) {
-    // Step 2: Update algorithm during log in
-    let password = prompt_password_stdout("Enter password:").unwrap();
-    if libpasta::verify_password_update_hash(&mut user.password_hash, password) {
-        println!("Password correct, new hash: \n{}", user.password_hash);
-    } else {
-        println!("Password incorrect, hash unchanged: \n{}", user.password_hash);
-    }
-}
+{{% code_snippet "migrate.rs" %}}
 {{< /highlight >}}
 {{% /tab %}}
 
@@ -145,48 +126,48 @@ More detailed information of password migration can be found
 
 #### Basic configuration
 
-`libpasta` supports configuration in two ways: directly in code, or using
-configuration files.
+`libpasta` is designed to work out-of-the box with strong defaults. However,
+other configurations are supported through use of the `Config` object.
+In particular, this is necessary to use [keyed functions](../../advanced/keyed).
 
-For example, suppose we wish to use bcrypt with `cost=15` as the default algorithm.
+This comes with the additional overheard that the config must be explicitly
+used.
 
-```rust
-extern crate libpasta;
+For example, suppose we wish to use bcrypt with `cost=15` as the default
+algorithm.
 
-use libpasta::primitives::Bcrypt;
+<div>
+{{% tabs id="config" titles="Rust" default="Rust" %}}
 
-fn main() {
-    libpasta::config::set_primitive(Bcrypt::new(15));
-    let password_hash = libpasta::hash_password("hunter2".to_string());
-    println!("The hashed password is: '{}'", password_hash);
-    // Prints bcrypt hash
-}
-```
+{{% tab "Rust" %}}
+{{< highlight rust "hl_lines=12 19">}}
+{{% code_snippet "config.rs" %}}
+{{< /highlight >}}
+{{% /tab %}}
 
-Note that once the library is in use, the configuration can no longer be
-changed.
+{{% tab "Python" %}}
+{{% /tab %}}
+
+{{% /tabs %}}
+</div>
 
 Additionally, values may be set using a configuration file. Written in YAML,
 these look as follows:
 
 ```yaml
-default_primitive:
-  id: scrypt-mcf
+default: Custom
+keyed: ~
+primitive: 
+  id: "scrypt"
   params: 
-    log_n: 12
+    ln: 11
     r: 8
     p: 1
+
 ```
 
-This specifies the algorithm to use, in this case, scrypt.
-
-By default, `libpasta` will search the current directory for a file with the name
-`.libpasta.yaml`. Alternatively, a specific (relative or absolute) directory
-can be supplied by running: `LIBPASTA_CFG=path/to/cfg/ <app-name>`.
-
-`libpasta` will use any parameters set directly, then use any values
-specified in configuration files, and finally all remaining variables are set
-to defaults.
+This specifies the algorithm to use, in this case, scrypt. Similar to the above,
+to use this config use the `Config::from_file` method.
 
 `libpasta` also has a [parameter selection tool](../../advanced/tuning) which
 can optionally output configuration values. 

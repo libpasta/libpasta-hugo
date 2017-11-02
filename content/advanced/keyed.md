@@ -18,17 +18,20 @@ sets up HMAC to be used as a wrapping function:
 
 ```rust
 use libpasta::primitives::hmac::Hmac;
+use libpasta::config::Config;
+
+let mut config = Config::default();
 
 // Some proper way of getting a key
 let key = b"yellow submarine";
-libpasta::config::add_key(key);
+config.add_key(key);
 
 // Construct an HMAC instance and use this as the outer configuration
 let keyed_function = Hmac::with_key(&digest::SHA256, key);
-libpasta::config::set_keyed_hash(keyed_function.into());
+config.set_keyed_hash(keyed_function);
 ```
 
-Using `libpasta::hash_function` will first hash using the default algorithm, and
+Using `config.hash_function` will first hash using the default algorithm, and
 then afterwards apply the HMAC to the output hash.
 
 On the roadmap: support for alternative key sources.

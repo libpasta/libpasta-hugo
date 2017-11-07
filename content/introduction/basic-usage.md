@@ -5,9 +5,9 @@ weight = 5
 
 +++
 
-The following examples are for the core library written in Rust. See [other languages](../../other-languages/)
-for language bindings and examples. Where possible, the APIs exported by libpasta are
-identical to those used in the Rust library.
+Here we give an overview of the core functionality of libpasta. Examples can
+be viewed in different languages, with the full list of language support
+found in [other languages](../../other-languages/).
 
 The full Rust API documentation can be found [here](../../doc/libpasta).
 Or will be found on [docs.rs](https://docs.rs/) once v0.1 is published.

@@ -10,6 +10,9 @@ PygmentsCodeFences = true
   description = "libpasta - making passwords painless"
   # Disable search function. It will hide search bar
   disableSearch = false
+  # Prefix URL to edit current page. Will display an "Edit this page" button on top right hand corner of every page. 
+  # Useful to give opportunity to people to create merge request for your doc.
+  editURL = "https://github.com/libpasta/libpasta-hugo/edit/master/content/"
   # Change default color scheme with a variant one. Can be "red", "blue", "green".
   themeVariant = "libpasta"
 
@@ -17,13 +20,13 @@ PygmentsCodeFences = true
 home = [ "HTML", "RSS", "JSON"]
 
 [[menu.shortcuts]]
-name = "<i class='fa fa-github'></i> Github repo"
+name = "<i class='fa fa-github'></i> Github (Rust)"
 identifier = "gh"
 url = "https://github.com/libpasta/libpasta"
 weight = 10
 
 [[menu.shortcuts]]
-name = "<i class='fa fa-book'></i> Documentation"
+name = "<i class='fa fa-book'></i> Documentation (Rust)"
 identifier = "rustdoc"
 url = "https://libpasta.github.io/doc/libpasta/"
 weight = 20

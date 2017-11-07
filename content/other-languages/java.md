@@ -5,14 +5,18 @@ weight = 5
 
 +++
 
-SWIG generates a number of helper files for Java, and a JNI library for use.
-For convenience, we have packaged these in a `.jar` file, which can be compiled
-from scratch using the `make install_java` command.
+There is currently support for the base functionality in Java.
 
-Hence, we need the following files: `libpasta.so`, `libpasta_jni.so`, and 
-`libpasta.jar`. Then, the following is sufficient to use the pasta functions:
+The library can be obtained by following the instruction in the
+[repository](https://github.com/libpasta/libpasta-java/). The simplest
+being to obtain the precompiled jar file from the
+[releases page](https://github.com/libpasta/libpasta-java/releases).
+
+Once obtained a simple example such as the following can be constructed:
 
 ```java
+import io.github.libpasta.*;
+
 public class test {
   public static void main(String argv[]) {
     String hash = pasta.hash_password("hello123");
@@ -28,9 +32,22 @@ public class test {
 ```
 And building the example with:
 
-```c
-    $ javac -cp .:../../libpasta.jar test.java
-    $ java -cp .:../../libpasta.jar test
-    Please enter the password (hint: hello123):
-    Correct password
+```bash
+$ javac -cp .:libpasta-java.{version}.jar test.java
+$ java -cp .:libpasta.jar test
+Please enter the password (hint: hello123):
+Correct password
+```
+
+If you see the following:
+```
+SLF4J: Failed to load class "org.slf4j.impl.StaticLoggerBinder".
+SLF4J: Defaulting to no-operation (NOP) logger implementation
+SLF4J: See http://www.slf4j.org/codes.html#StaticLoggerBinder for further details.
+```
+
+Make sure to add a SLF4J logger jar to the classpath. For example, the slf4j-nop
+logger, which simply ignores all logging messages, can be run with
+```bash
+$ java -cp .:libpasta.jar:slf4j-nop-1.7.25.jar test
 ```

@@ -28,5 +28,5 @@ weight = 10
 [[menu.shortcuts]]
 name = "<i class='fa fa-book'></i> Documentation (Rust)"
 identifier = "rustdoc"
-url = "https://libpasta.github.io/doc/libpasta/"
+url = "https://docs.rs/libpasta/"
 weight = 20

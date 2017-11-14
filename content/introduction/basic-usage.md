@@ -9,8 +9,7 @@ Here we give an overview of the core functionality of libpasta. Examples can
 be viewed in different languages, with the full list of language support
 found in [other languages](../../other-languages/).
 
-The full Rust API documentation can be found [here](../../doc/libpasta).
-Or will be found on [docs.rs](https://docs.rs/) once v0.1 is published.
+The full Rust API documentation can be found [here](https://docs.rs/libpasta/).
 
 ### Password Hashes
 

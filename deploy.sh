@@ -11,7 +11,8 @@ hugo # if using a theme, replace by `hugo -t <yourtheme>`
 htmlproofer public/ --allow-hash-href \
   --check-html \
   --url-swap "(.+)#[0-9]+-[0-9]+:$1" \
-  --url-ignore "#deref-methods"
+  --url-ignore "#deref-methods" \
+  --file-ignore "/.+\/javadoc\/.*/"
 
 if [ ! $? -eq 0 ]
   then

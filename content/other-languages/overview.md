@@ -21,7 +21,7 @@ Here we list the support:
 | [PHP][php]        |       Y       |[TODO][phprep]| [TODO][phpdoc]|
 | [Python][py]      |       Y       |[TODO][pyrep] | [TODO][pydoc] |
 | [Ruby][rb]        |       Y       |[TODO][rbrep] | [TODO][rbdoc] |
-| Rust              |    Native     |[Link][rsrep] | [Link][rsdoc] |
+| Rust              |  Y (Native)   |[Link][rsrep] | [Link][rsdoc] |
 
 
 [c]: ../c
@@ -29,7 +29,7 @@ Here we list the support:
 [cdoc]: #
 [java]: ../java
 [jrep]: https://github.com/libpasta/libpasta-java
-[jdoc]: {{ .Site.BaseURL }}javadoc/
+[jdoc]: /javadoc/
 [php]: ../php
 [phprep]: #
 [phpdoc]: #
@@ -41,4 +41,4 @@ Here we list the support:
 [rbdoc]: #
 [rs]: #
 [rsrep]: https://github.com/libpasta/libpasta
-[rsdoc]: {{ .Site.BaseURL }}rustdoc/libpasta/
+[rsdoc]: /rustdoc/libpasta/

@@ -19,7 +19,7 @@ Here we list the support:
 | [C][c]            |       Y       |[TODO][crep]  | [TODO][cdoc]  |
 | [Java][java]      |       Y       |[Link][jrep]  | [Link][jdoc]  |
 | [PHP][php]        |       Y       |[TODO][phprep]| [TODO][phpdoc]|
-| [Python][py]      |       Y       |[TODO][pyrep] | [TODO][pydoc] |
+| [Python][py]      |       Y       |[Link][pyrep] | [TODO][pydoc] |
 | [Ruby][rb]        |       Y       |[TODO][rbrep] | [TODO][rbdoc] |
 | Rust              |  Y (Native)   |[Link][rsrep] | [Link][rsdoc] |
 
@@ -34,7 +34,7 @@ Here we list the support:
 [phprep]: #
 [phpdoc]: #
 [py]: ../python
-[pyrep]: #
+[pyrep]: https://github.com/libpasta/libpasta-py
 [pydoc]: #
 [rb]: ../ruby
 [rbrep]: #

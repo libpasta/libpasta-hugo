@@ -1,4 +1,4 @@
-from pasta import *
+from lippasta import *
 
 password = read_password("Please enter your password:")
 hash =  hash_password(password)

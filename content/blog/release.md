@@ -7,7 +7,7 @@ draft = false
 
 Today we are announcing the **alpha release of libpasta!**
 
-libpasta is intended to be an cross-language, cross-platform, **easy-to-use**
+libpasta is intended to be a cross-language, cross-platform, **easy-to-use**
 password hashing library for developers. In particular, libpasta offers a
 **simple API**, which uses sane defaults, offering a relatively high security
 level with zero configuration or parameter choice for the developer.

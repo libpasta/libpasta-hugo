@@ -28,7 +28,7 @@
     {{ $disableShortcutsTitle := .Site.Params.DisableShortcutsTitle}}
     {{with .Site.Menus.shortcuts}}
       <section id="shortcuts">
-        <h3>{{ if not $disableShortcutsTitle}}{{ T "Shortcuts-Title"}}{{ end }}</h3>
+        <h4>{{ if not $disableShortcutsTitle}}{{ T "Shortcuts-Title"}}{{ end }}</h4>
         <ul>
           {{ range sort . "Weight"}}
               <li class="" role=""> 
@@ -95,7 +95,7 @@
 {{ $showvisitedlinks := .showvisitedlinks }}
 {{ $currentNode := .currentnode }}
  {{with .sect}}
-  {{if .IsSection}}
+  {{if and .IsSection (not .Params.hidden) }}
     {{safeHTML .Params.head}}
     <li data-nav-id="{{.URL}}" title="{{.Title}}" class="dd-item 
         {{if .IsAncestor $currentNode }}parent{{end}}

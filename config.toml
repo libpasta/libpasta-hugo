@@ -20,6 +20,12 @@ PygmentsCodeFences = true
 home = [ "HTML", "RSS", "JSON"]
 
 [[menu.shortcuts]]
+name = "<i class='fa fa-rss'></i> Blog"
+identifier = "blog"
+url = "blog/"
+weight = 5
+
+[[menu.shortcuts]]
 name = "<i class='fa fa-github'></i> Github (Rust)"
 identifier = "gh"
 url = "https://github.com/libpasta/libpasta"

@@ -5,7 +5,10 @@ weight = 1
 
 +++
 
-Some areas which are looking for contribution:
+libpasta is still at an early stage of development and is looking for
+contribution in all areas. 
+
+Some specific areas which are looking for contribution:
 
  * Improving these docs - [source](https://github.com/libpasta/libpasta-hugo)
  * The core Rust library - [source](https://github.com/libpasta/libpasta)

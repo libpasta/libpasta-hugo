@@ -1,8 +1,7 @@
 +++
 title = "Announcing libpasta"
 toc = false
-date = "2017-11-22"
-draft = false
+date = "2017-11-29"
 +++
 
 Today we are announcing the **alpha release of libpasta!**
@@ -46,7 +45,7 @@ in Rust to generate optimal parameter sets, and can expand this out.
 
 #### Who we are
 
-So far, libpasta is being developed by [samjs](https://twitter.com/sam_js_/)
-as part of a NSF-funded project at Cornell Tech. We are actively looking for
-new contributors, with the possibility of offering part and full-time
-positions to continue the work.
+So far, libpasta is being developed by [Sam Scott](https://twitter.com/sam_js_/)
+as part of a NSF-funded project at Cornell Tech, in collaboration with [Tom Ristenpart](https://rist.tech.cornell.edu/)
+and [Ari Juels](http://www.arijuels.com/). We are actively looking for new contributors, with the possibility of
+offering part and full-time positions to continue the work.

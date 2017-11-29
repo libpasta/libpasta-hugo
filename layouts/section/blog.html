@@ -5,7 +5,7 @@
 <hr>
 {{ range .Data.Pages.ByDate }}
     <h4><a href="{{ .Permalink }}">{{ .Title }}</a></h4>
-    <strong><time>{{ .Date.Format "2nd January, 2006" }}</time></strong>
+    <strong><time>{{ .Date.Format "2 January 2006" }}</time></strong>
     <hr>
 {{end}}
 

@@ -137,7 +137,7 @@ hardware such as an
 However, there exist [solutions (warning: PDF)][pythia] which can help in making
 keyed solutions more accessible.
 
-Another option is to involve a key in the storage mechanism is to encrypt the
+Another option is to involve a key in the storage mechanism to encrypt the
 password hash after hashing. While this has a number of drawbacks compared to
 using HMAC, one benefit is that it becomes possible to perform key rotation. In
 the event that the password storage is compromised, but not the encryption key,
@@ -170,7 +170,7 @@ custom solutions is reduced.
 ## Summary
 
 Password hashing is essential to protect passwords from being leaked after a
-data breach. However, is is far from straightforward given the many
+data breach. However, it is far from straightforward given the many
 considerations in play, such as: salting, security-parameters choices, key
 management, and memory-hardness.
 

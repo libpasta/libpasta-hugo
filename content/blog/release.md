@@ -15,7 +15,8 @@ Storing/verifying a password is as simple as `libpasta.hash_password(pw)` and
 
 Furthermore, libpasta is built to handle **migrating from old hashes**, finally
 allowing developers to move away from old, outdated algorithms and parameters.
-Once libpasta is in place, it will happily 
+Once libpasta is in place, it will happily update to any new algorithm or
+parameter choices.
 
 Our vision for libpasta, is to be available across many platforms, offering
 accessible password storage functionality to all applications. The core of
@@ -46,6 +47,6 @@ in Rust to generate optimal parameter sets, and can expand this out.
 #### Who we are
 
 So far, libpasta is being developed by [Sam Scott](https://twitter.com/sam_js_/)
-as part of a NSF-funded project at Cornell Tech, in collaboration with [Tom Ristenpart](https://rist.tech.cornell.edu/)
+as part of a NSF-funded project at [Cornell Tech](https://tech.cornell.edu/), in collaboration with [Tom Ristenpart](https://rist.tech.cornell.edu/)
 and [Ari Juels](http://www.arijuels.com/). We are actively looking for new contributors, with the possibility of
 offering part and full-time positions to continue the work.

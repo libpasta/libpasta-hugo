@@ -1,0 +1,24 @@
+
+{{ $lang := .Get 0 }}
+{{ with (eq $lang "java") }}{{ $.Scratch.Set "ext" ".java" }}{{ else }}
+{{ with (eq $lang "python") }}{{ $.Scratch.Set "ext" ".py" }}{{ else }}
+{{ with (eq $lang "rust") }}{{ $.Scratch.Set "ext" ".rs" }}{{ else }}
+Unsupported format
+{{ end }}{{ end }}{{ end }}
+{{ $opts := .Get 1 }}
+
+{{ $default := "rust" }}
+{{ $name := "" }}
+{{ with .Parent }}
+{{ $default := .Get "default" }}
+{{ $.Scratch.Set "name" (.Get "id")}}
+
+{{ $file := (print ($.Scratch.Get "name") ($.Scratch.Get "ext")) }}
+{{ $path := (print "content/examples/" $file ) }}
+{{ $code := readFile $path }}
+{{ $title := title $lang }}
+
+<div class="tabcontent {{ $title }}" style="display: {{ if eq $title $default }}block{{else}}none{{end}}" >
+    {{- highlight $code $lang $opts -}}
+</div>
+{{ end }}

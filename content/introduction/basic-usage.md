@@ -17,25 +17,9 @@ A common scenario is that a particular user has password, which a service will c
 
 <div>
 {{% tabs id="hash" titles="Java,Python,Rust" default="Rust" %}}
-
-{{% tab "Java" %}}
-{{< highlight java "hl_lines=4">}}
-{{< code_snippet "hash.java" >}}
-{{< /highlight >}}
-{{% /tab %}}
-
-{{% tab "Python" %}}
-{{< highlight python "hl_lines=5`">}}
-{{< code_snippet "hash.py" >}}
-{{< /highlight >}}
-{{% /tab %}}
-
-{{% tab "Rust" %}}
-{{< highlight rust "hl_lines=8">}}
-{{< code_snippet "hash.rs" >}}
-{{< /highlight >}}
-{{% /tab %}}
-
+{{< code_tab java    "hl_lines=6" >}}
+{{< code_tab python  "hl_lines=4" >}}
+{{< code_tab rust    "hl_lines=8" >}}
 {{% /tabs %}}
 </div>
 
@@ -51,30 +35,14 @@ outputs a variable-length string.
 
 Now that you have the hashed output, verifying that an inputted password is correct can be done as follows:
 
+
 <div>
 {{% tabs id="verify" titles="Java,Python,Rust" default="Rust" %}}
-
-{{% tab "Rust" %}}
-{{< highlight rust "hl_lines=11">}}
-{{< code_snippet "verify.rs" >}}
-{{< /highlight >}}
-{{% /tab %}}
-
-{{% tab "Python" %}}
-{{< highlight python "hl_lines=8`">}}
-{{< code_snippet "verify.py" >}}
-{{< /highlight >}}
-{{% /tab %}}
-
-
-{{% tab "Java" %}}
-{{< highlight java "hl_lines=6">}}
-{{< code_snippet "verify.java" >}}
-{{< /highlight >}}
-{{% /tab %}}
+{{< code_tab java    "hl_lines=8" >}}
+{{< code_tab python  "hl_lines=8" >}}
+{{< code_tab rust    "hl_lines=11" >}}
 {{% /tabs %}}
 </div>
-
 
 #### Password migration
 
@@ -96,17 +64,10 @@ The following code first wraps an existing hash, and then a move to just using
 the new algorithm:
 
 <div>
-{{% tabs id="migrate" titles="Rust" default="Rust" %}}
-
-{{% tab "Rust" %}}
-{{< highlight rust "hl_lines=12 19">}}
-{{% code_snippet "migrate.rs" %}}
-{{< /highlight >}}
-{{% /tab %}}
-
-{{% tab "Python" %}}
-{{% /tab %}}
-
+{{% tabs id="migrate" titles="Java,Python,Rust" default="Rust" %}}
+{{< code_tab java    "hl_lines=10 22" >}}
+{{< code_tab python  "hl_lines=6 17" >}}
+{{< code_tab rust    "hl_lines=14 24" >}}
 {{% /tabs %}}
 </div>
 
@@ -135,18 +96,12 @@ used.
 For example, suppose we wish to use bcrypt with `cost=15` as the default
 algorithm.
 
+
 <div>
-{{% tabs id="config" titles="Rust" default="Rust" %}}
-
-{{% tab "Rust" %}}
-{{< highlight rust "hl_lines=12 19">}}
-{{% code_snippet "config.rs" %}}
-{{< /highlight >}}
-{{% /tab %}}
-
-{{% tab "Python" %}}
-{{% /tab %}}
-
+{{% tabs id="config" titles="Java,Python,Rust" default="Rust" %}}
+{{< code_tab java    "" >}}
+{{< code_tab python  "" >}}
+{{< code_tab rust    "" >}}
 {{% /tabs %}}
 </div>
 

@@ -1,4 +1,4 @@
-from lippasta import *
+from libpasta import *
 
 class User:
     password_hash = ""

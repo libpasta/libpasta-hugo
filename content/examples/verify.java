@@ -1,4 +1,6 @@
-public class User {
+import io.github.libpasta.pasta;
+
+public class verify {
     private String password_hash;
 
     public void authUser() {

@@ -10,6 +10,8 @@ PygmentsCodeFences = true
   description = "libpasta - making passwords painless"
   # Disable search function. It will hide search bar
   disableSearch = false
+  # Set this to true to disable copy-to-clipboard button for inline code.
+  disableInlineCopyToClipBoard = true
   # Prefix URL to edit current page. Will display an "Edit this page" button on top right hand corner of every page. 
   # Useful to give opportunity to people to create merge request for your doc.
   editURL = "https://github.com/libpasta/libpasta-hugo/edit/master/content/"

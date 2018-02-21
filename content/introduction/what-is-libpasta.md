@@ -25,7 +25,7 @@ levels, parameter selection change regularly.
 [yahoo2]: https://help.yahoo.com/kb/account/sln28092.html
 [linkedin]: https://motherboard.vice.com/en_us/article/78kk4z/another-day-another-hack-117-million-linkedin-emails-and-password 
 [adobe]: https://www.troyhunt.com/adobe-credentials-and-serious/
-[am]: http://krebsonsecurity.com/2015/07/online-cheating-site-ashleymadison-hacked/
+[am]: https://krebsonsecurity.com/2015/07/online-cheating-site-ashleymadison-hacked/
 [hibp-breaches]: https://haveibeenpwned.com/PwnedWebsites
 
 ### libpasta - making passwords painless

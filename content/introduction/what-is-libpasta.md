@@ -4,7 +4,7 @@ toc = true
 weight = 4
 +++
 
-Password breaches have become a regular occurance. See: [Yahoo][yahoo] ([twice][yahoo2]),
+Password breaches have become a regular occurrence. See: [Yahoo][yahoo] ([twice][yahoo2]),
 [LinkedIn][linkedin], [Adobe][adobe], [Ashley Madison][am], and
 [a whole lot more][hibp-breaches].
 

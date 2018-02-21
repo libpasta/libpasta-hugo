@@ -348,7 +348,8 @@ approach.
    drastically, potentially reducing the value in doing any of the above. But
    its still useful (in my opinion) for the initial work.
 
-Thanks for reading!
+Thanks for reading! Happy to respond to any comments on the [reddit thread](https://www.reddit.com/r/rust/comments/7z7pml/rust_for_crosslanguage_system_libraries_libpasta/), or reach out to me on 
+[twitter](https://twitter.com/sam_js_).
 
 [cbindgen]: https://github.com/eqrion/cbindgen
 [ffi-omni]: http://jakegoulding.com/rust-ffi-omnibus/

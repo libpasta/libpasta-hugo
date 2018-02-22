@@ -57,8 +57,8 @@ the extern version of `hash_password`, perhaps ending up with something like[^1]
 #[no_mangle]
 pub extern fn hash_password(password: *const c_char) -> *mut c_char {
     let password = unsafe {
-        if password.is_null() { return }
-        CString::from_raw(password)
+        assert!(!password.is_null());
+        CStr::from_ptr(password)
     };
     let hash = libpasta::hash_password(password);
     CString::new(hash).unwrap().into_raw()
@@ -332,7 +332,7 @@ approach.
 
  * Some languages have projects dedicated to interacting with Rust. E.g.
    [ruru](https://github.com/d-unseductable/ruru) for Ruby <-> Rust. These
-   potential perform better, or create better bindings, or have more features. I
+   potentially perform better, create better bindings, or have more features. I
    haven't investigated yet and would be interested to know. In the future
    individual bindings could be improved this way. 
  * I haven't _yet_ benchmarked the overhead of all of this. However, since

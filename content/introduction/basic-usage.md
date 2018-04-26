@@ -16,9 +16,10 @@ The full Rust API documentation can be found [here](https://docs.rs/libpasta/).
 A common scenario is that a particular user has password, which a service will check on each login to authenticate the user.
 
 <div>
-{{% tabs id="hash" titles="Java,Python,Rust" default="Rust" %}}
+{{% tabs id="hash" titles="Java,Python,Ruby,Rust" default="Rust" %}}
 {{< code_tab java    "hl_lines=6" >}}
 {{< code_tab python  "hl_lines=4" >}}
+{{< code_tab ruby    "hl_lines=4" >}}
 {{< code_tab rust    "hl_lines=8" >}}
 {{% /tabs %}}
 </div>
@@ -37,9 +38,10 @@ Now that you have the hashed output, verifying that an inputted password is corr
 
 
 <div>
-{{% tabs id="verify" titles="Java,Python,Rust" default="Rust" %}}
+{{% tabs id="verify" titles="Java,Python,Ruby,Rust" default="Rust" %}}
 {{< code_tab java    "hl_lines=8" >}}
 {{< code_tab python  "hl_lines=8" >}}
+{{< code_tab ruby    "hl_lines=9" >}}
 {{< code_tab rust    "hl_lines=11" >}}
 {{% /tabs %}}
 </div>
@@ -64,9 +66,10 @@ The following code first wraps an existing hash, and then a move to just using
 the new algorithm:
 
 <div>
-{{% tabs id="migrate" titles="Java,Python,Rust" default="Rust" %}}
+{{% tabs id="migrate" titles="Java,Python,Ruby,Rust" default="Rust" %}}
 {{< code_tab java    "hl_lines=10 22" >}}
 {{< code_tab python  "hl_lines=6 17" >}}
+{{< code_tab ruby    "hl_lines=10 25" >}}
 {{< code_tab rust    "hl_lines=14 24" >}}
 {{% /tabs %}}
 </div>
@@ -98,9 +101,10 @@ algorithm.
 
 
 <div>
-{{% tabs id="config" titles="Java,Python,Rust" default="Rust" %}}
+{{% tabs id="config" titles="Java,Python,Ruby,Rust" default="Rust" %}}
 {{< code_tab java    "" >}}
 {{< code_tab python  "" >}}
+{{< code_tab ruby  "" >}}
 {{< code_tab rust    "" >}}
 {{% /tabs %}}
 </div>

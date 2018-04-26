@@ -2,9 +2,10 @@
 {{ $lang := .Get 0 }}
 {{ with (eq $lang "java") }}{{ $.Scratch.Set "ext" ".java" }}{{ else }}
 {{ with (eq $lang "python") }}{{ $.Scratch.Set "ext" ".py" }}{{ else }}
+{{ with (eq $lang "ruby") }}{{ $.Scratch.Set "ext" ".rb" }}{{ else }}
 {{ with (eq $lang "rust") }}{{ $.Scratch.Set "ext" ".rs" }}{{ else }}
 Unsupported format
-{{ end }}{{ end }}{{ end }}
+{{ end }}{{ end }}{{ end }}{{ end }}
 {{ $opts := .Get 1 }}
 
 {{ $default := "rust" }}

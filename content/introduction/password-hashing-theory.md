@@ -174,9 +174,9 @@ data breach. However, it is far from straightforward given the many
 considerations in play, such as: salting, security-parameters choices, key
 management, and memory-hardness.
 
-Hence, we created libpasta to help accomodate the needs of the majority of
+Hence, we created libpasta to help accommodate the needs of the majority of
 use cases, providing an easy-to-use API which removes the necessity for the
-technical knowledge to choose appopriate algorithms and parameters.
+technical knowledge to choose appropriate algorithms and parameters.
 
 
 [owf]: https://en.wikipedia.org/wiki/One-way_function
